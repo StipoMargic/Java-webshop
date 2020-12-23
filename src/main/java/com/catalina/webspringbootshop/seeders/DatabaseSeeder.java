@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class DatabaseSeeder {
 
@@ -33,9 +35,16 @@ public class DatabaseSeeder {
     }
 
     private void seedUsersTable() {
-        User user = new User("Stipo", "stipo@liberato.io", new BCryptPasswordEncoder().encode("password"), Roles.ADMIN.toString());
-        user.setRole(Roles.ADMIN.toString());
-        userRepository.save(user);
-        logger.info("Users Seeded");
+        String sql = "SELECT username, email FROM user U WHERE U.username = \"stipo\" OR " +
+                "U.email = \"stipo@liberato.io\" LIMIT 1";
+        List<User> u = jdbcTemplate.query(sql, (resultSet, rowNum) -> null);
+        if (u == null || u.size() <= 0) {
+            User user = new User("Stipo", "stipo@liberato.io", new BCryptPasswordEncoder().encode("password"), Roles.ADMIN.toString());
+            user.setRole(Roles.ADMIN.toString());
+            userRepository.save(user);
+            logger.info("Users Seeded");
+        }else {
+            logger.info("Stipo is already in db!");
+        }
     }
 }
