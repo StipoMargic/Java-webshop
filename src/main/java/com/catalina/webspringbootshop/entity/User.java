@@ -9,8 +9,6 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @ToString
 @Entity
 @Table(name = "user")
@@ -36,10 +34,6 @@ public class User {
     @NotNull
     private String password;
 
-    @NotEmpty
-    @NotNull
-    private String passwordConfirm;
-
     @Column(name = "first_name")
     private String firstName;
 
@@ -51,9 +45,13 @@ public class User {
 
     @Column(name = "city")
     private String city;
-    @OneToMany(targetEntity = Role.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_fk",referencedColumnName = "id")
-    private List<Role> roles;
 
+    private String role;
 
+    public User(@NotEmpty @NotNull String username, @Email @NotEmpty @NotNull String email, @NotEmpty @NotNull String password, String role) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 }

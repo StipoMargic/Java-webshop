@@ -2,7 +2,6 @@ package com.catalina.webspringbootshop.controller;
 
 import com.catalina.webspringbootshop.dto.UserRequest;
 import com.catalina.webspringbootshop.entity.User;
-import com.catalina.webspringbootshop.repository.ProductRepository;
 import com.catalina.webspringbootshop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +16,6 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
 
     @PostMapping("/create")
     public User create(@RequestBody UserRequest request) {
