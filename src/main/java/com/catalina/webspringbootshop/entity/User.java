@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @ToString
@@ -14,7 +15,7 @@ import java.util.List;
 @Table(name = "users")
 public class User {
 
-    //@Column(name = "user_id")
+    @Column(name = "user_id")
     @Id
     @GeneratedValue
     private int id;
@@ -47,6 +48,11 @@ public class User {
     private String city;
 
     private String role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
+
+    public User() {}
 
     public User(@NotEmpty @NotNull String username, @Email @NotEmpty @NotNull String email, @NotEmpty @NotNull String password, String role) {
         this.username = username;

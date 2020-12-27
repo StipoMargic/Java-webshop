@@ -1,8 +1,11 @@
 package com.catalina.webspringbootshop.controller;
 
+
+import com.catalina.webspringbootshop.dto.OrderRequest;
 import com.catalina.webspringbootshop.dto.UserRequest;
+import com.catalina.webspringbootshop.entity.Order;
 import com.catalina.webspringbootshop.entity.User;
-import com.catalina.webspringbootshop.repository.UserRepository;
+import com.catalina.webspringbootshop.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,18 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class UserController {
+public class OrderController {
 
     @Autowired
-    private UserRepository userRepository;
+    private OrderRepository orderRepository;
 
-    @PostMapping("/createUser")
-    public User create(@RequestBody UserRequest request) {
-        return userRepository.save(request.getUser());
+    @PostMapping("/createOrder")
+    public void create(@RequestBody OrderRequest request) {
+        System.out.println("Sent");
     }
 
-    @GetMapping("/users")
-    public List<User> list() {
-        return userRepository.findAll();
+    @GetMapping("/orders")
+    public List<Order> list() {
+        return orderRepository.findAll();
     }
 }
