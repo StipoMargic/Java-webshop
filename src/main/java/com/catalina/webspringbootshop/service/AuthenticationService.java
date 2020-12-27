@@ -1,5 +1,6 @@
 package com.catalina.webspringbootshop.service;
 
+import com.catalina.webspringbootshop.dto.UserLogin;
 import com.catalina.webspringbootshop.dto.UserRegistration;
 import com.catalina.webspringbootshop.entity.User;
 import com.catalina.webspringbootshop.repository.UserRepository;
@@ -16,18 +17,19 @@ import javax.servlet.http.HttpServletRequest;
 public class AuthenticationService {
 
     private UserRepository userRepository;
+    private UserService userService;
     private Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
     AuthenticationManager authManager;
 
 
     @Autowired
-    public AuthenticationService(UserRepository userRepository, AuthenticationManager authenticationManager) {
+    public AuthenticationService(UserRepository userRepository, AuthenticationManager authenticationManager, UserService userService) {
         this.userRepository = userRepository;
         this.authManager = authenticationManager;
+        this.userService = userService;
     }
 
     public String doRegister(UserRegistration userRegistration, RedirectAttributes attr, HttpServletRequest req) {
-
         if (!userRegistration.isValidDetails()) {
             attr.addFlashAttribute("error", "One or More Field is Missing");
             attr.addFlashAttribute("formdata", userRegistration);
@@ -58,5 +60,10 @@ public class AuthenticationService {
         attr.addFlashAttribute("success", "Registration Successful!");
 
         return "redirect:/login";
+    }
+
+    public String doLogin(UserLogin userLogin, RedirectAttributes attr, HttpServletRequest req) {
+        userService.login(userLogin.getUsername(), userLogin.getPassword());
+        return "redirect:/";
     }
 }

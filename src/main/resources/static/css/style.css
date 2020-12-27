@@ -40,10 +40,11 @@ label {
     color: black;
     background-color: #e2e6ec;
 }
-.register {
+.register, .login {
     min-height: 100vh;
     display: flex;
     align-items: center;
+    justify-content: center;
     max-width: 50rem;
     margin: 0 auto;
 }
