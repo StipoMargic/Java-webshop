@@ -31,7 +31,8 @@ public class AuthController {
     public String register(ModelMap model, HttpServletRequest req, RedirectAttributes attr,
                            @RequestParam(value = "g-recaptcha-response", required = false) String recaptchaResp, UserRegistration userRegistration) {
         if (StringUtils.equals(req.getMethod(), RequestMethod.GET.toString())) {
-            return "admin/auth/register";
+            model.addAttribute("user", userRegistration);
+            return "register";
         }
         if (StringUtils.equals(req.getMethod(), RequestMethod.POST.toString())) {
             return authenticationService.doRegister(userRegistration, attr, req);

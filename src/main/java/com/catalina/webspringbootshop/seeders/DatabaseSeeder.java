@@ -35,7 +35,7 @@ public class DatabaseSeeder {
     }
 
     private void seedUsersTable() {
-        String sql = "SELECT username, email FROM user U WHERE U.username = \"stipo\" OR " +
+        String sql = "SELECT username, email FROM users U WHERE U.username = \"stipo\" OR " +
                 "U.email = \"stipo@liberato.io\" LIMIT 1";
         List<User> u = jdbcTemplate.query(sql, (resultSet, rowNum) -> null);
         if (u == null || u.size() <= 0) {
