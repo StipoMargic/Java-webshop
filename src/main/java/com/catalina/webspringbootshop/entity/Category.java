@@ -10,11 +10,10 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @ToString
 @Entity
-@Table(name = "users")
+@Table(name = "category")
 public class Category {
     @Id
     @GeneratedValue
-    @Column(name = "category_id")
     private int id;
 
     @Column(name = "name")
@@ -25,8 +24,7 @@ public class Category {
     public Category() {
     }
 
-    public Category(int id, @NonNull @NotEmpty String name) {
-        this.id = id;
+    public Category(@NonNull @NotEmpty String name) {
         this.name = name;
     }
 }
