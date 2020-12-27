@@ -6,7 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UserRegistration {
 
-    private String username, email, city, password, password_confirmation, first_name, last_name;
+    private String username, email, city, password, password_confirmation, first_name, last_name, state, address, address2;
     private int postal_code;
 
     public UserRegistration() {}
@@ -69,6 +69,30 @@ public class UserRegistration {
 
     public String getPassword_confirmation() {
         return password_confirmation;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAddress2() {
+        return address2;
+    }
+
+    public void setAddress2(String address2) {
+        this.address2 = address2;
     }
 
     public void setPassword_confirmation(String password_confirmation) {
