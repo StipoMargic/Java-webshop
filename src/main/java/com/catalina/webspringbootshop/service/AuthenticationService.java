@@ -63,7 +63,7 @@ public class AuthenticationService {
     }
 
     public String doLogin(UserLogin userLogin, RedirectAttributes attr, HttpServletRequest req) {
-        userService.login(userLogin.getEmail(), userLogin.getPassword());
-        return "redirect:/login";
+        userService.login(userLogin.getUsername(), userLogin.getPassword());
+        return "redirect:/";
     }
 }

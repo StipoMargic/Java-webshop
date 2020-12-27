@@ -1,17 +1,17 @@
 package com.catalina.webspringbootshop.dto;
 
 public class UserLogin {
-    private String email, password;
+    private String username, password;
 
     public UserLogin() {
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
