@@ -5,6 +5,7 @@ import com.catalina.webspringbootshop.entity.Category;
 import com.catalina.webspringbootshop.entity.User;
 import com.catalina.webspringbootshop.repository.CategoryRepository;
 import com.catalina.webspringbootshop.repository.UserRepository;
+import com.github.javafaker.Faker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Component
 public class DatabaseSeeder {
@@ -23,6 +27,8 @@ public class DatabaseSeeder {
     private UserRepository userRepository;
     private JdbcTemplate jdbcTemplate;
     private CategoryRepository categoryRepository;
+    private Faker faker;
+    private final int USERS_TO_CREATE = 20;
 
     @Autowired
     public DatabaseSeeder(
@@ -32,6 +38,15 @@ public class DatabaseSeeder {
         this.userRepository = userRepository;
         this.jdbcTemplate = jdbcTemplate;
         this.categoryRepository = categoryRepository;
+    }
+
+    @PostConstruct
+    public void fill() {
+        this.faker = generateFaker();
+    }
+
+    private Faker generateFaker() {
+        return new Faker(new Locale("en-US"));
     }
 
     @EventListener
@@ -51,6 +66,10 @@ public class DatabaseSeeder {
             logger.info("Users Seeded");
         } else {
             logger.info("Stipo is already in db!");
+        }
+        for (int i = 0; i < this.USERS_TO_CREATE; i++) {
+            User fake = new User(faker.name().username(), faker.internet().emailAddress(), new BCryptPasswordEncoder().encode(faker.name().name()), Roles.CUSTOMER.toString());
+            userRepository.save(fake);
         }
     }
 
