@@ -1,6 +1,5 @@
 package com.catalina.webspringbootshop.controller;
 
-import com.catalina.webspringbootshop.dto.UserUpdate;
 import com.catalina.webspringbootshop.entity.User;
 import com.catalina.webspringbootshop.repository.UserRepository;
 import com.catalina.webspringbootshop.service.UserService;
@@ -45,7 +44,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/edit/{id}", method = {RequestMethod.POST})
-    public String update(ModelMap model, @PathVariable("id") int id, HttpServletRequest req, UserUpdate user) {
+    public String update(ModelMap model, @PathVariable("id") int id, HttpServletRequest req, User user) {
         User u = userRepository.findById(id);
 
         if (u == null) {

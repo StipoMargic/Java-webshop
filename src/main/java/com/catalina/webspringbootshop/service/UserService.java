@@ -1,6 +1,5 @@
 package com.catalina.webspringbootshop.service;
 
-import com.catalina.webspringbootshop.dto.UserUpdate;
 import com.catalina.webspringbootshop.entity.User;
 
 public interface UserService {
@@ -14,5 +13,5 @@ public interface UserService {
 
     User findById(int id);
 
-    void edit(User user, UserUpdate newUser);
+    void edit(User user, User newUser);
 }

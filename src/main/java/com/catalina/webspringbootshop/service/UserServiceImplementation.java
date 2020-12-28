@@ -1,6 +1,5 @@
 package com.catalina.webspringbootshop.service;
 
-import com.catalina.webspringbootshop.dto.UserUpdate;
 import com.catalina.webspringbootshop.entity.User;
 import com.catalina.webspringbootshop.repository.UserRepository;
 import org.slf4j.Logger;
@@ -69,20 +68,21 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public void edit(User u, UserUpdate nU) {
-        if (nU.isValidDetails()) {
-            u.setLastName(nU.getLast_name());
-            u.setFirstName(nU.getFirst_name());
-            u.setUsername(nU.getUsername());
-            if (nU.passwordMatch()) {
-                u.setPassword(nU.getPassword());
+    public void edit(User user, User newUser) {
+        if (newUser.isValidDetails()) {
+            user.setLastName(newUser.getLastName());
+            user.setFirstName(newUser.getFirstName());
+            user.setUsername(newUser.getUsername());
+            if (newUser.passwordValid()) {
+                user.setPassword(newUser.getPassword());
             }
-            u.setAddress(nU.getAddress());
-            u.setEmail(nU.getEmail());
-            u.setPostalCode(nU.getPostal_code());
-            u.setState(nU.getState());
-            u.setCity(nU.getCity());
+            user.setAddress(newUser.getAddress());
+            user.setEmail(newUser.getEmail());
+            user.setPostalCode(newUser.getPostalCode());
+            user.setState(newUser.getState());
+            user.setCity(newUser.getCity());
         }
+        userRepository.save(user);
     }
 }
 
