@@ -11,16 +11,15 @@ import lombok.ToString;
 @ToString
 public class OrderRequest {
 
-    private String user_id;
+    private Order order;
 
-    public OrderRequest() {}
+    private OrderRequest() {}
 
-    public String getUser_id() {
-        return user_id;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setOrder(Order order) {
+        this.order = order;
     }
-
 }

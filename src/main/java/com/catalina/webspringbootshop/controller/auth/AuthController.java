@@ -1,5 +1,6 @@
 package com.catalina.webspringbootshop.controller.auth;
 
+import com.catalina.webspringbootshop.dto.UserLogin;
 import com.catalina.webspringbootshop.dto.UserRegistration;
 import com.catalina.webspringbootshop.repository.UserRepository;
 import com.catalina.webspringbootshop.service.AuthenticationService;
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,13 +30,28 @@ public class AuthController {
     Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @RequestMapping(value = "/register", method = {RequestMethod.GET, RequestMethod.POST})
-    public String register(ModelMap model, HttpServletRequest req, RedirectAttributes attr,
-                           @RequestParam(value = "g-recaptcha-response", required = false) String recaptchaResp, UserRegistration userRegistration) {
+    public String register(ModelMap model, HttpServletRequest req, RedirectAttributes attr, UserRegistration userRegistration) {
         if (StringUtils.equals(req.getMethod(), RequestMethod.GET.toString())) {
-            return "admin/auth/register";
+            model.addAttribute("user", userRegistration);
+            return "register";
         }
         if (StringUtils.equals(req.getMethod(), RequestMethod.POST.toString())) {
             return authenticationService.doRegister(userRegistration, attr, req);
+        }
+
+        return invalidRequestResponse(attr);
+    }
+
+
+    @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
+    public String login(ModelMap model, HttpServletRequest req, RedirectAttributes attr, UserLogin userLogin) {
+        if (StringUtils.equals(req.getMethod(), RequestMethod.GET.toString())) {
+            model.addAttribute("user", userLogin);
+            return "login";
+        }
+
+        if (StringUtils.equals(req.getMethod(), RequestMethod.POST.toString())) {
+            return authenticationService.doLogin(userLogin, attr, req);
         }
 
         return invalidRequestResponse(attr);

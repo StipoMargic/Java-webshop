@@ -7,7 +7,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @ToString
@@ -47,10 +46,16 @@ public class User {
     @Column(name = "city")
     private String city;
 
-    private String role;
+    @Column(name = "state")
+    private String state;
 
-    @OneToMany(mappedBy = "user")
-    private List<Order> orders;
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "address2")
+    private String address2;
+
+    private String role;
 
     public User() {}
 
