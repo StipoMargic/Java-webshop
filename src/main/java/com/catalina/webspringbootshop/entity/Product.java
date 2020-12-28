@@ -6,6 +6,11 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Data
 @ToString
@@ -13,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "products")
 public class Product {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int product_id;
 
     /*@Column(name = "category_id")
@@ -42,13 +47,19 @@ public class Product {
     @Column(name = "description")
     private String description;
 
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+    private Set<OrderDetail> orderDetails;
+
     public Product() {
     }
 
-    public Product(@NotEmpty @NotNull String name, @NotEmpty @NotNull float price, @NotEmpty @NotNull int unit_in_stock, @NotEmpty @NotNull String description) {
+    public Product(@NotEmpty @NotNull String name, @NotEmpty @NotNull float price, @NotEmpty @NotNull int unit_in_stock, @NotEmpty @NotNull String description, OrderDetail... orderDetails ) {
         this.name = name;
         this.price = price;
         this.unit_in_stock = unit_in_stock;
         this.description = description;
+        for(OrderDetail orderDetail: orderDetails) orderDetail.setProduct(this);
+        this.orderDetails = Stream.of(orderDetails).collect(Collectors.toSet());
     }
+
 }
