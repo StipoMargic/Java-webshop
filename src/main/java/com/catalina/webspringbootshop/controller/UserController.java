@@ -38,13 +38,13 @@ public class UserController {
 
         if (StringUtils.equals(req.getMethod(), RequestMethod.GET.toString())) {
             model.addAttribute("user", user);
-            return "user";
+            return "users";
         }
 
         return "err";
     }
 
-    @RequestMapping(value = "/user/{id}", method = {RequestMethod.POST})
+    @RequestMapping(value = "/user/edit/{id}", method = {RequestMethod.POST})
     public String update(ModelMap model, @PathVariable("id") int id, HttpServletRequest req, UserUpdate user) {
         User u = userRepository.findById(id);
 
@@ -69,7 +69,7 @@ public class UserController {
         if (StringUtils.equals(req.getMethod(), RequestMethod.POST.toString())) {
             userRepository.delete(u);
             logger.debug(String.format("User with id: %s has been successfully removed.", id));
-            return "redirect:index";
+            return "redirect:/";
         }
 
         return "error";
@@ -77,7 +77,7 @@ public class UserController {
 
     @GetMapping("/users")
     public String list(ModelMap model) {
-        model.addAttribute("users", list());
+        model.addAttribute("all_users", list());
 
         return "users";
     }
