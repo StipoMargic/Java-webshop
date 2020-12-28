@@ -22,13 +22,14 @@ import java.util.List;
 public class UserController {
 
     private Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/user/{id}", method = {RequestMethod.DELETE, RequestMethod.GET})
+    @RequestMapping(value = "/user/{id}", method = {RequestMethod.GET})
     public String get(ModelMap model, @PathVariable("id") int id, HttpServletRequest req) {
         User user = userRepository.findById(id);
         if (null == user) {
@@ -38,11 +39,6 @@ public class UserController {
         if (StringUtils.equals(req.getMethod(), RequestMethod.GET.toString())) {
             model.addAttribute("user", user);
             return "user";
-        }
-
-        if (StringUtils.equals(req.getMethod(), RequestMethod.DELETE.toString())) {
-            userRepository.delete(user);
-            return "index";
         }
 
         return "err";
@@ -59,6 +55,7 @@ public class UserController {
             userService.edit(u, user);
             logger.debug(String.format("User with id: %s has been successfully edited.", id));
         }
+
         return "error";
     }
 
@@ -70,6 +67,7 @@ public class UserController {
             return "error";
         }
         if (StringUtils.equals(req.getMethod(), RequestMethod.POST.toString())) {
+            userRepository.delete(u);
             logger.debug(String.format("User with id: %s has been successfully removed.", id));
             return "redirect:index";
         }
