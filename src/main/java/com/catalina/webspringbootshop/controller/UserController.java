@@ -36,8 +36,8 @@ public class UserController {
         }
 
         if (StringUtils.equals(req.getMethod(), RequestMethod.GET.toString())) {
-            model.addAttribute("user", user);
-            return "users";
+            model.addAttribute("single_user", user);
+            return "edit-user";
         }
 
         return "err";

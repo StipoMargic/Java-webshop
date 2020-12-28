@@ -69,11 +69,12 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public void edit(User user, User newUser) {
-        if (newUser.isValidDetails()) {
+
             user.setLastName(newUser.getLastName());
             user.setFirstName(newUser.getFirstName());
             user.setUsername(newUser.getUsername());
             if (newUser.passwordValid()) {
+                System.out.println(newUser.getPassword());
                 user.setPassword(newUser.getPassword());
             }
             user.setAddress(newUser.getAddress());
@@ -81,7 +82,7 @@ public class UserServiceImplementation implements UserService {
             user.setPostalCode(newUser.getPostalCode());
             user.setState(newUser.getState());
             user.setCity(newUser.getCity());
-        }
+
         userRepository.save(user);
     }
 }
