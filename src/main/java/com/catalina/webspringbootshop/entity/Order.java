@@ -15,6 +15,8 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Data
 @ToString
@@ -26,21 +28,19 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    //@Column(name = "Order_date",updatable = false)
-    //private Date order_date;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
-    private Set<OrderDetail> orderDetails = new HashSet<>();
-
-    //@PrePersist
-    //void createDate() {
-      //  this.order_date = new Date();
-    //}
+    private int quantity;
+    private int total;
+    private Date orderDate;
+    @ManyToMany
+    @JoinTable(name = "order_products", joinColumns = @JoinColumn(name = "order_id", nullable=false), inverseJoinColumns =
+    @JoinColumn(name = "product_id", nullable=false))
+    Set<Product> listProducts;
 
     public int getId() {
         return id;
@@ -50,14 +50,6 @@ public class Order {
         this.id = id;
     }
 
-    //public Date getOrder_date() {
-      //  return order_date;
-    //}
-
-    //public void setOrder_date(Date order_date) {
-      //  this.order_date = order_date;
-    //}
-
     public User getUser() {
         return user;
     }
@@ -66,17 +58,48 @@ public class Order {
         this.user = user;
     }
 
-    public Set<OrderDetail> getOrderDetails() {
-        return orderDetails;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setOrderDetails(Set<OrderDetail> orderDetails) {
-        this.orderDetails = orderDetails;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public Set<Product> getListProducts() {
+        return listProducts;
+    }
+
+    public void setListProducts(Set<Product> listProducts) {
+        this.listProducts = listProducts;
     }
 
     public Order() {}
 
-    public Order(@NotNull User user) {
+
+    public Order(@NotNull User user, int quantity, int total, Date orderDate, Set<Product> listProducts) {
         this.user = user;
+        this.quantity = quantity;
+        this.total = total;
+        this.orderDate = orderDate;
+        this.listProducts = listProducts;
     }
 }
+
+

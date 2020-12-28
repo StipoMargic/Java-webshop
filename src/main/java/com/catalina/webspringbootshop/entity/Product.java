@@ -47,19 +47,16 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
-    private Set<OrderDetail> orderDetails;
+    @ManyToMany(mappedBy = "listProducts",fetch = FetchType.EAGER)
+    Set<Order> listOrders;
 
     public Product() {
     }
 
-    public Product(@NotEmpty @NotNull String name, @NotEmpty @NotNull float price, @NotEmpty @NotNull int unit_in_stock, @NotEmpty @NotNull String description, OrderDetail... orderDetails ) {
+    public Product(@NotEmpty @NotNull String name, @NotEmpty @NotNull float price, @NotEmpty @NotNull int unit_in_stock, @NotEmpty @NotNull String description) {
         this.name = name;
         this.price = price;
         this.unit_in_stock = unit_in_stock;
         this.description = description;
-        for(OrderDetail orderDetail: orderDetails) orderDetail.setProduct(this);
-        this.orderDetails = Stream.of(orderDetails).collect(Collectors.toSet());
     }
-
 }

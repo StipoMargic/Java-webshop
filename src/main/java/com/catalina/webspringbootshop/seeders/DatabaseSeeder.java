@@ -1,12 +1,12 @@
 package com.catalina.webspringbootshop.seeders;
 
 import com.catalina.webspringbootshop.config.Roles;
-import com.catalina.webspringbootshop.entity.Category;
-import com.catalina.webspringbootshop.entity.Order;
-import com.catalina.webspringbootshop.entity.User;
+import com.catalina.webspringbootshop.entity.*;
 import com.catalina.webspringbootshop.repository.CategoryRepository;
 import com.catalina.webspringbootshop.repository.OrderRepository;
+import com.catalina.webspringbootshop.repository.ProductRepository;
 import com.catalina.webspringbootshop.repository.UserRepository;
+import com.fasterxml.jackson.databind.JsonSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.*;
 
 @Component
 public class DatabaseSeeder {
@@ -25,22 +25,29 @@ public class DatabaseSeeder {
     private UserRepository userRepository;
     private JdbcTemplate jdbcTemplate;
     private CategoryRepository categoryRepository;
+    private ProductRepository productRepository;
     private OrderRepository orderRepository;
 
     @Autowired
     public DatabaseSeeder(
             UserRepository userRepository,
             JdbcTemplate jdbcTemplate,
-            CategoryRepository categoryRepository) {
+            CategoryRepository categoryRepository,
+            ProductRepository productRepository,
+            OrderRepository orderRepository) {
         this.userRepository = userRepository;
         this.jdbcTemplate = jdbcTemplate;
         this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
+        this.orderRepository = orderRepository;
     }
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         seedUsersTable();
         seedCategoryTable();
+        seedProductTable();
+        seedOrderTable();
     }
 
     private void seedUsersTable() {
@@ -50,7 +57,10 @@ public class DatabaseSeeder {
         if (u == null || u.size() <= 0) {
             User user = new User("Stipo", "stipo@liberato.io", new BCryptPasswordEncoder().encode("password"), Roles.ADMIN.toString());
             user.setRole(Roles.ADMIN.toString());
+            User user1 = new User("tomo", "tomo@liberato.io", new BCryptPasswordEncoder().encode("password"), Roles.ADMIN.toString());
+            user1.setRole(Roles.ADMIN.toString());
             userRepository.save(user);
+            userRepository.save(user1);
             logger.info("Users Seeded");
         } else {
             logger.info("Stipo is already in db!");
@@ -69,5 +79,24 @@ public class DatabaseSeeder {
         }
     }
 
+    private void seedProductTable() {
+        String sql = "SELECT name FROM products P WHERE P.name = \"Iphone12\" LIMIT 1";
+        List<Category> p = jdbcTemplate.query(sql, (resultSet, rowNum) -> null);
+        if (p == null || p.size() <= 0) {
+            Product product = new Product("Iphone12", 500.0f, 4, "dsao");
+            productRepository.save(product);
+            logger.info("Product Seeded");
+        } else {
+            logger.info("Product iphone12 already in db!");
+        }
+    }
 
-}   
+    private void seedOrderTable() {
+            Set<Product> a = new HashSet<>();
+            a.add(productRepository.findById(1).orElseThrow());
+            //System.out.println(a.size());
+
+            Order order = new Order(userRepository.findById(1), 101, 10, new Date(),a);
+            orderRepository.save(order);
+        }
+    }
