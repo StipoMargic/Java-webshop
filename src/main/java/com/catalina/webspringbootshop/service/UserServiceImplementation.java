@@ -1,5 +1,6 @@
 package com.catalina.webspringbootshop.service;
 
+import com.catalina.webspringbootshop.dto.UserUpdate;
 import com.catalina.webspringbootshop.entity.User;
 import com.catalina.webspringbootshop.repository.UserRepository;
 import org.slf4j.Logger;
@@ -37,6 +38,7 @@ public class UserServiceImplementation implements UserService {
         userRepository.save(user);
     }
 
+
     @Override
     public void login(String username, String password) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -64,6 +66,23 @@ public class UserServiceImplementation implements UserService {
     @Override
     public User findById(int id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public void edit(User u, UserUpdate nU) {
+        if (nU.isValidDetails()) {
+            u.setLastName(nU.getLast_name());
+            u.setFirstName(nU.getFirst_name());
+            u.setUsername(nU.getUsername());
+            if (nU.passwordMatch()) {
+                u.setPassword(nU.getPassword());
+            }
+            u.setAddress(nU.getAddress());
+            u.setEmail(nU.getEmail());
+            u.setPostalCode(nU.getPostal_code());
+            u.setState(nU.getState());
+            u.setCity(nU.getCity());
+        }
     }
 }
 

@@ -1,12 +1,12 @@
 package com.catalina.webspringbootshop.entity;
 
-import lombok.*;
+import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Data
 @ToString
