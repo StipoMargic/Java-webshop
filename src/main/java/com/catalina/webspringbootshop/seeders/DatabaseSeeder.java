@@ -18,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -93,10 +92,14 @@ public class DatabaseSeeder {
     }
 
     private void seedProductTable() {
+        Category category = categoryRepository.findByName("laptop");
+
         for (int i = 0; i < this.PRODUCTS_TO_CREATE; i++) {
-            Product product = new Product(faker.pokemon().name(), 10, 10, "Testr");
+            Product product = new Product(faker.pokemon().name(), 10, 10, "Testr", category);
 
             productRepository.save(product);
         }
     }
+
+
 }

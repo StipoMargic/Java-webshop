@@ -6,21 +6,16 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Data
 @ToString
 @Entity
-@Table(name = "products")
-public class Product {
+@Table(name = "product")
+public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
-    /*@Column(name = "category_id")
-    @NotEmpty
-    @NotNull
-    private Category category_id:
-    */
 
     @Column(name = "name", unique = true)
     @NotEmpty
@@ -42,11 +37,19 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    public Product() {}
-    public Product(@NotEmpty @NotNull String name, @NotEmpty @NotNull float price, @NotEmpty @NotNull int unit_in_stock, @NotEmpty @NotNull String description) {
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
+    public Product() {
+    }
+
+    public Product(@NotEmpty @NotNull String name, @NotEmpty @NotNull float price, @NotEmpty @NotNull int unit_in_stock, @NotEmpty @NotNull String description, Category category) {
         this.name = name;
         this.price = price;
         this.unit_in_stock = unit_in_stock;
         this.description = description;
+        this.category = category;
     }
+
 }
