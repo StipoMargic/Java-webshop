@@ -1,12 +1,12 @@
 package com.catalina.webspringbootshop.entity;
 
-import lombok.*;
+import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Data
 @ToString
@@ -57,7 +57,8 @@ public class User {
 
     private String role;
 
-    public User() {}
+    public User() {
+    }
 
     public User(@NotEmpty @NotNull String username, @Email @NotEmpty @NotNull String email, @NotEmpty @NotNull String password, String role) {
         this.username = username;
@@ -65,4 +66,14 @@ public class User {
         this.password = password;
         this.role = role;
     }
+
+    public boolean passwordValid() {
+        return getPassword() != null && getPassword().length() > 8;
+    }
+
+    public boolean isValidDetails() {
+        return !getUsername().isEmpty() && !getEmail().isEmpty()
+                && !getUsername().isEmpty() && !getPassword().isEmpty();
+    }
+
 }
