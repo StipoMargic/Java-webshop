@@ -12,9 +12,7 @@ import javax.validation.constraints.Null;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,7 +38,7 @@ public class Order {
     @ManyToMany
     @JoinTable(name = "order_products", joinColumns = @JoinColumn(name = "order_id", nullable=false), inverseJoinColumns =
     @JoinColumn(name = "product_id", nullable=false))
-    Set<Product> listProducts;
+    List<Product> listProducts = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -82,18 +80,18 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Set<Product> getListProducts() {
+    public List<Product> getListProducts() {
         return listProducts;
     }
 
-    public void setListProducts(Set<Product> listProducts) {
+    public void setListProducts(List<Product> listProducts) {
         this.listProducts = listProducts;
     }
 
     public Order() {}
 
 
-    public Order(@NotNull User user, int quantity, int total, Date orderDate, Set<Product> listProducts) {
+    public Order(@NotNull User user, int quantity, int total, Date orderDate, List<Product> listProducts) {
         this.user = user;
         this.quantity = quantity;
         this.total = total;

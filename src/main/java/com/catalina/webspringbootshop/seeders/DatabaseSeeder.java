@@ -2,9 +2,11 @@ package com.catalina.webspringbootshop.seeders;
 
 import com.catalina.webspringbootshop.config.Roles;
 import com.catalina.webspringbootshop.entity.Category;
+import com.catalina.webspringbootshop.entity.Order;
 import com.catalina.webspringbootshop.entity.Product;
 import com.catalina.webspringbootshop.entity.User;
 import com.catalina.webspringbootshop.repository.CategoryRepository;
+import com.catalina.webspringbootshop.repository.OrderRepository;
 import com.catalina.webspringbootshop.repository.ProductRepository;
 import com.catalina.webspringbootshop.repository.UserRepository;
 import com.github.javafaker.Faker;
@@ -18,8 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Component
 public class DatabaseSeeder {
@@ -29,6 +30,7 @@ public class DatabaseSeeder {
     private ProductRepository productRepository;
     private JdbcTemplate jdbcTemplate;
     private CategoryRepository categoryRepository;
+    private OrderRepository orderRepository;
     private Faker faker;
     private final int USERS_TO_CREATE = 20;
     private final int PRODUCTS_TO_CREATE = 20;
@@ -36,7 +38,6 @@ public class DatabaseSeeder {
     @Autowired
     public DatabaseSeeder(
             UserRepository userRepository,
-            ProductRepository productRepository,
             JdbcTemplate jdbcTemplate,
             CategoryRepository categoryRepository,
             ProductRepository productRepository,
@@ -45,7 +46,6 @@ public class DatabaseSeeder {
         this.productRepository = productRepository;
         this.jdbcTemplate = jdbcTemplate;
         this.categoryRepository = categoryRepository;
-        this.productRepository = productRepository;
         this.orderRepository = orderRepository;
     }
 
@@ -63,6 +63,7 @@ public class DatabaseSeeder {
         seedUsersTable();
         seedCategoryTable();
         seedProductTable();
+        seedOrderTable();
     }
 
     private void seedUsersTable() {
@@ -106,6 +107,14 @@ public class DatabaseSeeder {
 
             productRepository.save(product);
         }
+    }
+
+    private void seedOrderTable() {
+        List<Product> a = productRepository.findAll();
+
+        Order order = new Order(userRepository.findById(1), 10, 10, new Date(), a);
+        orderRepository.save(order);
+
     }
 
 

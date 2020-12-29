@@ -7,6 +7,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @ToString
@@ -40,6 +44,10 @@ public class Product implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @ManyToMany(mappedBy = "listProducts", fetch = FetchType.EAGER)
+    List<Order> orders = new ArrayList<>();
+
 
     public Product() {
     }
