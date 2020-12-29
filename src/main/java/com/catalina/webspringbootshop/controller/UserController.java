@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,7 +32,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/admin/user/{id}", method = {RequestMethod.GET})
-    public String get(ModelMap model, @PathVariable("id") int id, HttpServletRequest req) {
+    public String get(ModelMap model, @PathVariable("id") int id, HttpServletRequest req, @AuthenticationPrincipal UserDetails userDetails) {
         User user = userRepository.findById(id);
         if (null == user) {
             return "error";
@@ -61,11 +62,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin/user/delete/{id}", method = {RequestMethod.POST})
-    public String destroy(@PathVariable("id") int id, HttpServletRequest req, @AuthenticationPrincipal UserDetails user) {
+    public String destroy(@PathVariable("id") int id, HttpServletRequest req) {
         User u = userRepository.findById(id);
 
         if (u == null) {
             return "error";
+        }
+
+
+        if (StringUtils.equals(u.getRole(), "ADMIN")) {
+            //TODO: Handle admin delete
         }
 
         if (StringUtils.equals(req.getMethod(), RequestMethod.POST.toString())) {
@@ -78,7 +84,7 @@ public class UserController {
     }
 
     @GetMapping("/admin/users")
-    public String list(ModelMap model) {
+    public String list(ModelMap model, @AuthenticationPrincipal UserDetails userDetails) {
         model.addAttribute("all_users", list());
 
         return "users";
