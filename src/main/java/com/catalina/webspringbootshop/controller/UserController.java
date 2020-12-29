@@ -72,6 +72,7 @@ public class UserController {
 
         if (StringUtils.equals(u.getRole(), "ADMIN")) {
             //TODO: Handle admin delete
+            return "redirect:/admin/users";
         }
 
         if (StringUtils.equals(req.getMethod(), RequestMethod.POST.toString())) {
