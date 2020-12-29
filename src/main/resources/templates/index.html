@@ -1,10 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MST - Dashboard</title>
+    <!-- Bootstrap -->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="/webjars/bootstrap/css/bootstrap.min.css"
+    />
+    <!-- Favicon -->
+    <link rel="icon" href="https://cdn6.f-cdn.com/contestentries/565076/14898096/5772c36b99629_thumb900.jpg" type="image/jpg" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+            rel="stylesheet"
+    />
+    <!-- CSS -->
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <h1>Welcome new user!</h1>
+    <div class="container">
+        <div id="products" class="mb-3">
+            <h1 class="mb-4">List of Products</h1>
+            <div class="row">
+                    <div th:each="product : ${products}" class="col-sm-4">
+
+                        <div class="card product-card">
+                            <img src="https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="Product" class="img-fluid product-image">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${product.name}"></h5>
+                                <h6 class="card-subtitle mb-2 text-muted" th:text="${product.getCategory().getName()}"></h6>
+                                <p class="price" th:text="${product.price}"></p>
+                                <p class="card-text" th:text="${product.description}"></p>
+                                <button class="btn btn-dark mt-2">Add to Cart</button>
+                            </div>
+                        </div>
+
+                    </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

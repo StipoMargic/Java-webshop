@@ -59,6 +59,23 @@ label {
     align-items: center;
 }
 
+.product-card {
+    max-width: 300px;
+    margin: 2rem;
+    border-radius: 2rem;
+    box-shadow: 0 0 10px 2px #cacaca;
+}
+
+.product-price {
+    color: grey;
+    font-size: 22px;
+}
+
+.product-image {
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+}
+
 @media only screen and (max-width: 768px) {
     .form-row {
         flex-direction: column;
