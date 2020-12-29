@@ -37,6 +37,7 @@ public class UserServiceImplementation implements UserService {
         userRepository.save(user);
     }
 
+
     @Override
     public void login(String username, String password) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -64,6 +65,25 @@ public class UserServiceImplementation implements UserService {
     @Override
     public User findById(int id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public void edit(User user, User newUser) {
+
+            user.setLastName(newUser.getLastName());
+            user.setFirstName(newUser.getFirstName());
+            user.setUsername(newUser.getUsername());
+            if (newUser.passwordValid()) {
+                System.out.println(newUser.getPassword());
+                user.setPassword(newUser.getPassword());
+            }
+            user.setAddress(newUser.getAddress());
+            user.setEmail(newUser.getEmail());
+            user.setPostalCode(newUser.getPostalCode());
+            user.setState(newUser.getState());
+            user.setCity(newUser.getCity());
+
+        userRepository.save(user);
     }
 }
 

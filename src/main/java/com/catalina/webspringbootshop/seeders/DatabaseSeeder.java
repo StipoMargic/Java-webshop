@@ -1,12 +1,13 @@
 package com.catalina.webspringbootshop.seeders;
 
 import com.catalina.webspringbootshop.config.Roles;
-import com.catalina.webspringbootshop.entity.*;
+import com.catalina.webspringbootshop.entity.Category;
+import com.catalina.webspringbootshop.entity.Product;
+import com.catalina.webspringbootshop.entity.User;
 import com.catalina.webspringbootshop.repository.CategoryRepository;
-import com.catalina.webspringbootshop.repository.OrderRepository;
 import com.catalina.webspringbootshop.repository.ProductRepository;
 import com.catalina.webspringbootshop.repository.UserRepository;
-import com.fasterxml.jackson.databind.JsonSerializer;
+import com.github.javafaker.Faker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,30 +17,45 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import javax.annotation.PostConstruct;
+import java.util.List;
+import java.util.Locale;
 
 @Component
 public class DatabaseSeeder {
 
     private Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
     private UserRepository userRepository;
+    private ProductRepository productRepository;
     private JdbcTemplate jdbcTemplate;
     private CategoryRepository categoryRepository;
-    private ProductRepository productRepository;
-    private OrderRepository orderRepository;
+    private Faker faker;
+    private final int USERS_TO_CREATE = 20;
+    private final int PRODUCTS_TO_CREATE = 20;
 
     @Autowired
     public DatabaseSeeder(
             UserRepository userRepository,
+            ProductRepository productRepository,
             JdbcTemplate jdbcTemplate,
             CategoryRepository categoryRepository,
             ProductRepository productRepository,
             OrderRepository orderRepository) {
         this.userRepository = userRepository;
+        this.productRepository = productRepository;
         this.jdbcTemplate = jdbcTemplate;
         this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
+    }
+
+    @PostConstruct
+    public void fill() {
+        this.faker = generateFaker();
+    }
+
+    private Faker generateFaker() {
+        return new Faker(new Locale("en-US"));
     }
 
     @EventListener
@@ -47,7 +63,6 @@ public class DatabaseSeeder {
         seedUsersTable();
         seedCategoryTable();
         seedProductTable();
-        seedOrderTable();
     }
 
     private void seedUsersTable() {
@@ -65,6 +80,10 @@ public class DatabaseSeeder {
         } else {
             logger.info("Stipo is already in db!");
         }
+        for (int i = 0; i < this.USERS_TO_CREATE; i++) {
+            User fake = new User(faker.name().username(), faker.internet().emailAddress(), new BCryptPasswordEncoder().encode(faker.name().name()), Roles.CUSTOMER.toString());
+            userRepository.save(fake);
+        }
     }
 
     private void seedCategoryTable() {
@@ -80,23 +99,14 @@ public class DatabaseSeeder {
     }
 
     private void seedProductTable() {
-        String sql = "SELECT name FROM products P WHERE P.name = \"Iphone12\" LIMIT 1";
-        List<Category> p = jdbcTemplate.query(sql, (resultSet, rowNum) -> null);
-        if (p == null || p.size() <= 0) {
-            Product product = new Product("Iphone12", 500.0f, 4, "dsao");
+        Category category = categoryRepository.findByName("laptop");
+
+        for (int i = 0; i < this.PRODUCTS_TO_CREATE; i++) {
+            Product product = new Product(faker.pokemon().name(), 10, 10, "Testr", category);
+
             productRepository.save(product);
-            logger.info("Product Seeded");
-        } else {
-            logger.info("Product iphone12 already in db!");
         }
     }
 
-    private void seedOrderTable() {
-            Set<Product> a = new HashSet<>();
-            a.add(productRepository.findById(1).orElseThrow());
-            //System.out.println(a.size());
 
-            Order order = new Order(userRepository.findById(1), 101, 10, new Date(),a);
-            orderRepository.save(order);
-        }
-    }
+}
