@@ -33,7 +33,7 @@ public class DatabaseSeeder {
     private OrderRepository orderRepository;
     private Faker faker;
     private final int USERS_TO_CREATE = 20;
-    private final int PRODUCTS_TO_CREATE = 20;
+    private final int PRODUCTS_TO_CREATE = 10;
 
     @Autowired
     public DatabaseSeeder(
@@ -103,7 +103,7 @@ public class DatabaseSeeder {
         Category category = categoryRepository.findByName("laptop");
 
         for (int i = 0; i < this.PRODUCTS_TO_CREATE; i++) {
-            Product product = new Product(faker.pokemon().name(), 10, 10, "Testr", category);
+            Product product = new Product(faker.pokemon().name() + i, 10.00f, 10, "Testr", category);
 
             productRepository.save(product);
         }
