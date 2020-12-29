@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +30,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/user/{id}", method = {RequestMethod.GET})
+    @RequestMapping(value = "/admin/user/{id}", method = {RequestMethod.GET})
     public String get(ModelMap model, @PathVariable("id") int id, HttpServletRequest req) {
         User user = userRepository.findById(id);
         if (null == user) {
@@ -43,7 +45,7 @@ public class UserController {
         return "err";
     }
 
-    @RequestMapping(value = "/user/edit/{id}", method = {RequestMethod.POST})
+    @RequestMapping(value = "/admin/user/edit/{id}", method = {RequestMethod.POST})
     public String update(ModelMap model, @PathVariable("id") int id, HttpServletRequest req, User user) {
         User u = userRepository.findById(id);
 
@@ -58,13 +60,14 @@ public class UserController {
         return "error";
     }
 
-    @RequestMapping(value = "/user/delete/{id}", method = {RequestMethod.POST})
-    public String destroy(@PathVariable("id") int id, HttpServletRequest req) {
+    @RequestMapping(value = "/admin/user/delete/{id}", method = {RequestMethod.POST})
+    public String destroy(@PathVariable("id") int id, HttpServletRequest req, @AuthenticationPrincipal UserDetails user) {
         User u = userRepository.findById(id);
 
         if (u == null) {
             return "error";
         }
+
         if (StringUtils.equals(req.getMethod(), RequestMethod.POST.toString())) {
             userRepository.delete(u);
             logger.debug(String.format("User with id: %s has been successfully removed.", id));
@@ -74,7 +77,7 @@ public class UserController {
         return "error";
     }
 
-    @GetMapping("/users")
+    @GetMapping("/admin/users")
     public String list(ModelMap model) {
         model.addAttribute("all_users", list());
 

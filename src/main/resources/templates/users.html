@@ -46,7 +46,7 @@
                                 <td th:text="${user.lastName}"></td>
                                 <td th:text="${user.email}"></td>
                                 <td>
-                                    <form method="GET" th:action="@{user/{id}(id=${user.id})}">
+                                    <form method="GET" th:action="@{/admin/user/{id}(id=${user.id})}">
                                         <input
                                                 type="submit"
                                                 value="Edit"
@@ -55,7 +55,7 @@
                                     </form>
                                 </td>
                                 <td>
-                                    <form method="POST" th:action="@{user/delete/{id}(id=${user.id})}">
+                                    <form method="POST" th:action="@{/admin/user/delete/{id}(id=${user.id})}">
                                         <input
                                            type="submit"
                                            value="Delete"

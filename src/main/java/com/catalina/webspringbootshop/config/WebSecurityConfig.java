@@ -46,9 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers("/","/home","/index","/about","/help","/register","/cart/**").permitAll()
-                .antMatchers("/user/**").hasRole("USER")
-                .antMatchers("/admin/**","/product/new").hasRole("ADMIN")
+                .antMatchers("/", "/home", "/index", "/about", "/help", "/register", "/cart/**").permitAll()
+                .antMatchers("/admin/**", "/product/new").hasRole("ADMIN")
                 .and().formLogin().loginPage("/login").permitAll()
                 .and().logout().invalidateHttpSession(true).clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll()
                 .and().headers().frameOptions().sameOrigin();
@@ -56,8 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/webjars/**", "/js/**","/error/**"
-                , "/css/**","/fonts/**","/libs/**","/img/**","/h2-console/**");
+        web.ignoring().antMatchers("/webjars/**", "/js/**", "/error/**"
+                , "/css/**", "/fonts/**", "/libs/**", "/img/**", "/h2-console/**");
     }
 
     @Autowired
