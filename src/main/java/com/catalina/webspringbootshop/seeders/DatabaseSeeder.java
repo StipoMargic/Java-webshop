@@ -1,6 +1,7 @@
 package com.catalina.webspringbootshop.seeders;
 
 import com.catalina.webspringbootshop.config.Roles;
+import com.catalina.webspringbootshop.entity.Product;
 import com.catalina.webspringbootshop.entity.User;
 import com.catalina.webspringbootshop.repository.UserRepository;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ public class DatabaseSeeder {
     private Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
     private UserRepository userRepository;
     private JdbcTemplate jdbcTemplate;
+    private final int PRODUCTS_TO_CREATE = 20;
 
     @Autowired
     public DatabaseSeeder(
@@ -32,6 +34,7 @@ public class DatabaseSeeder {
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         seedUsersTable();
+        seedProductsTable();
     }
 
     private void seedUsersTable() {
@@ -43,8 +46,14 @@ public class DatabaseSeeder {
             user.setRole(Roles.ADMIN.toString());
             userRepository.save(user);
             logger.info("Users Seeded");
-        }else {
+        } else {
             logger.info("Stipo is already in db!");
+        }
+    }
+
+    private void seedProductsTable() {
+        for (int i = 0; i < this.PRODUCTS_TO_CREATE; i++) {
+            new Product()
         }
     }
 }
