@@ -32,7 +32,7 @@ public class ProductController {
     public String index(ModelMap model) {
         model.addAttribute("products", getAllProducts());
 
-        return "home";
+        return "index";
     }
 
     @GetMapping(value = {"/{id}"})
