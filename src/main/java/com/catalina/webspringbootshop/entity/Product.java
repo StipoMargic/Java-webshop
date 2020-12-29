@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 public class Product {
     @Id
     @GeneratedValue
-    private int product_id;
+    private int id;
 
     /*@Column(name = "category_id")
     @NotEmpty
