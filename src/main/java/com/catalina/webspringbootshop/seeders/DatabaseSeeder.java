@@ -2,8 +2,10 @@ package com.catalina.webspringbootshop.seeders;
 
 import com.catalina.webspringbootshop.config.Roles;
 import com.catalina.webspringbootshop.entity.Category;
+import com.catalina.webspringbootshop.entity.Product;
 import com.catalina.webspringbootshop.entity.User;
 import com.catalina.webspringbootshop.repository.CategoryRepository;
+import com.catalina.webspringbootshop.repository.ProductRepository;
 import com.catalina.webspringbootshop.repository.UserRepository;
 import com.github.javafaker.Faker;
 import org.slf4j.Logger;
@@ -25,17 +27,21 @@ public class DatabaseSeeder {
 
     private Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
     private UserRepository userRepository;
+    private ProductRepository productRepository;
     private JdbcTemplate jdbcTemplate;
     private CategoryRepository categoryRepository;
     private Faker faker;
     private final int USERS_TO_CREATE = 20;
+    private final int PRODUCTS_TO_CREATE = 20;
 
     @Autowired
     public DatabaseSeeder(
             UserRepository userRepository,
+            ProductRepository productRepository,
             JdbcTemplate jdbcTemplate,
             CategoryRepository categoryRepository) {
         this.userRepository = userRepository;
+        this.productRepository = productRepository;
         this.jdbcTemplate = jdbcTemplate;
         this.categoryRepository = categoryRepository;
     }
@@ -53,6 +59,7 @@ public class DatabaseSeeder {
     public void seed(ContextRefreshedEvent event) {
         seedUsersTable();
         seedCategoryTable();
+        seedProductTable();
     }
 
     private void seedUsersTable() {
@@ -84,4 +91,12 @@ public class DatabaseSeeder {
             logger.info("Category laptop is already in db!");
         }
     }
-}   
+
+    private void seedProductTable() {
+        for (int i = 0; i < this.PRODUCTS_TO_CREATE; i++) {
+            Product product = new Product(faker.pokemon().name(), 10, 10, "Testr");
+
+            productRepository.save(product);
+        }
+    }
+}

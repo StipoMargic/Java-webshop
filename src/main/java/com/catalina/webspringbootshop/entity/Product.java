@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "products")
 public class Product {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     /*@Column(name = "category_id")
@@ -42,9 +42,7 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    public Product() {
-    }
-
+    public Product() {}
     public Product(@NotEmpty @NotNull String name, @NotEmpty @NotNull float price, @NotEmpty @NotNull int unit_in_stock, @NotEmpty @NotNull String description) {
         this.name = name;
         this.price = price;
