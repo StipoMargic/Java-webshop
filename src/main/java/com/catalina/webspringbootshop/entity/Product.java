@@ -42,7 +42,7 @@ public class Product implements Serializable {
     private String description;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @ManyToMany(mappedBy = "listProducts", fetch = FetchType.EAGER)

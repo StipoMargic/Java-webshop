@@ -20,8 +20,6 @@ public class Category implements Serializable {
     private int id;
 
     @Column(name = "name")
-    @NonNull
-    @NotEmpty
     public String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
@@ -30,7 +28,7 @@ public class Category implements Serializable {
     public Category() {
     }
 
-    public Category(@NonNull @NotEmpty String name) {
+    public Category(String name) {
         this.name = name;
     }
 }

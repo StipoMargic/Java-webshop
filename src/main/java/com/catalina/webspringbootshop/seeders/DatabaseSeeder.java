@@ -34,6 +34,7 @@ public class DatabaseSeeder {
     private Faker faker;
     private final int USERS_TO_CREATE = 20;
     private final int PRODUCTS_TO_CREATE = 10;
+    private final int CATEGORY_TO_CREATE = 5;
 
     @Autowired
     public DatabaseSeeder(
@@ -73,39 +74,50 @@ public class DatabaseSeeder {
         if (u == null || u.size() <= 0) {
             User user = new User("Stipo", "stipo@liberato.io", new BCryptPasswordEncoder().encode("password"), Roles.ADMIN.toString());
             user.setRole(Roles.ADMIN.toString());
-            User user1 = new User("tomo", "tomo@liberato.io", new BCryptPasswordEncoder().encode("password"), Roles.ADMIN.toString());
-            user1.setRole(Roles.ADMIN.toString());
             userRepository.save(user);
-            userRepository.save(user1);
             logger.info("Users Seeded");
         } else {
             logger.info("Stipo is already in db!");
         }
-        for (int i = 0; i < this.USERS_TO_CREATE; i++) {
-            User fake = new User(faker.name().username(), faker.internet().emailAddress(), new BCryptPasswordEncoder().encode(faker.name().name()), Roles.CUSTOMER.toString());
-            userRepository.save(fake);
+        int userSize = userRepository.findAll().size();
+        if (userSize < 2) {
+            for (int i = 0; i < this.USERS_TO_CREATE; i++) {
+                User fake = new User(faker.name().username(), faker.internet().emailAddress(), new BCryptPasswordEncoder().encode(faker.name().name()), Roles.CUSTOMER.toString());
+                userRepository.save(fake);
+            }
+            logger.info("More users added");
+        } else {
+            logger.info("Enough users!");
         }
     }
 
     private void seedCategoryTable() {
-        String sql = "SELECT name FROM category C WHERE C.name = \"laptop\" LIMIT 1";
-        List<Category> c = jdbcTemplate.query(sql, (resultSet, rowNum) -> null);
-        if (c == null || c.size() <= 0) {
-            Category category = new Category("laptop");
-            categoryRepository.save(category);
-            logger.info("Category Seeded");
+        int categorySize = categoryRepository.findAll().size();
+        if (categorySize < 2) {
+            for (int i = 0; i < this.CATEGORY_TO_CREATE; i++) {
+                Category category = new Category(this.faker.name().name());
+                categoryRepository.save(category);
+            }
+            logger.info("More categories added");
         } else {
-            logger.info("Category laptop is already in db!");
+            logger.info("Enough categories!");
+
         }
     }
 
     private void seedProductTable() {
-        Category category = categoryRepository.findByName("laptop");
 
-        for (int i = 0; i < this.PRODUCTS_TO_CREATE; i++) {
-            Product product = new Product(faker.pokemon().name() + i, 10.00f, 10, "Testr", category);
+        int productSize = productRepository.findAll().size();
+        if (productSize < 2) {
+            for (int i = 0; i < this.PRODUCTS_TO_CREATE; i++) {
+                Category category = categoryRepository.findAll().get(0);
+                Product product = new Product(faker.pokemon().name() + i, 10.00f, 10, "Testr", category);
 
-            productRepository.save(product);
+                productRepository.save(product);
+            }
+            logger.info("Products added!");
+        } else {
+            logger.info("Enough products!");
         }
     }
 
@@ -116,6 +128,4 @@ public class DatabaseSeeder {
         orderRepository.save(order);
 
     }
-
-
 }
