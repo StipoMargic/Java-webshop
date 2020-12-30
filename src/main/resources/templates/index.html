@@ -20,22 +20,28 @@
     />
     <!-- CSS -->
     <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/navigation.css}" href="/css/navigation.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+    <div th:replace="fragments/navigation :: navigation">
+
+    </div>
     <div class="container">
-        <div id="products" class="mb-3">
-            <h1 class="mb-4">List of Products</h1>
-            <div class="row">
-                    <div th:each="product : ${products}" class="col-sm-4">
+        <div id="products p-4" class="mb-3">
+            <h1 class="my-4 mx-3">List of Products</h1>
+            <div class="row p-md-4">
+                    <div th:each="product : ${products}" class="col-sm-6 offset-sm-3 offset-md-0 col-lg-4 col-xl-3">
 
                         <div class="card product-card">
                             <img src="https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="Product" class="img-fluid product-image">
                             <div class="card-body">
                                 <h5 class="card-title" th:text="${product.name}"></h5>
-                                <h6 class="card-subtitle mb-2 text-muted" th:text="${product.getCategory().getName()}"></h6>
-                                <p class="price" th:text="${product.price}"></p>
-                                <p class="card-text" th:text="${product.description}"></p>
-                                <button class="btn btn-dark mt-2">Add to Cart</button>
+                                <h6 class="card-subtitle mb-2 product-category" th:text="${product.getCategory().getName()}"></h6>
+                                <p>
+                                    Price: <span class="product-price" th:text="${product.price} + ' $'"></span>
+                                </p>
+                                <p class="card-text product-desc" th:text="${product.description}"></p>
+                                <button class="btn btn-dark mt-2 product-cta">Add to Cart</button>
                             </div>
                         </div>
 
@@ -43,5 +49,6 @@
             </div>
         </div>
     </div>
+    <script src="https://kit.fontawesome.com/386023a665.js" crossorigin="anonymous"></script>
 </body>
 </html>

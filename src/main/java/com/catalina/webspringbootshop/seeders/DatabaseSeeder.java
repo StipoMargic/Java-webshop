@@ -35,6 +35,7 @@ public class DatabaseSeeder {
     private final int USERS_TO_CREATE = 20;
     private final int PRODUCTS_TO_CREATE = 10;
     private final int CATEGORY_TO_CREATE = 5;
+    private final String DESCRIPTION = "The iPhone is a smartphone made by Apple that combines a computer and as of 2017, there were 2.2 million apps available for it through the Apple App Store, according to Statista.";
 
     @Autowired
     public DatabaseSeeder(
@@ -111,7 +112,7 @@ public class DatabaseSeeder {
         if (productSize < 2) {
             for (int i = 0; i < this.PRODUCTS_TO_CREATE; i++) {
                 Category category = categoryRepository.findAll().get(0);
-                Product product = new Product(faker.pokemon().name() + i, 10.00f, 10, "Testr", category);
+                Product product = new Product(faker.pokemon().name() + i, 10.00f, 10, DESCRIPTION, category);
 
                 productRepository.save(product);
             }
