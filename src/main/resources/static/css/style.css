@@ -60,20 +60,42 @@ label {
 }
 
 .product-card {
-    max-width: 300px;
-    margin: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
     border-radius: 2rem;
     box-shadow: 0 0 10px 2px #cacaca;
+    transition: .15s all;
+    transform: scale(1);
 }
 
-.product-price {
-    color: grey;
-    font-size: 22px;
+.product-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 10px 4px #cacaca;
 }
 
 .product-image {
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
+}
+
+.product-category {
+    text-transform: uppercase;
+    font-size: .85rem;
+}
+
+.product-price {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.product-desc {
+    font-size: .85rem;
+}
+
+.product-btn {
+    display: block;
+    margin: 0 auto;
 }
 
 @media only screen and (max-width: 768px) {
