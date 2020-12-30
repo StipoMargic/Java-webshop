@@ -18,6 +18,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import java.text.DecimalFormat;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -34,6 +35,8 @@ public class DatabaseSeeder {
     private Faker faker;
     private final int USERS_TO_CREATE = 20;
     private final int PRODUCTS_TO_CREATE = 10;
+    private final float productPrice = 10.00f;
+    private final String description = "The first-generation iPhone was extremely thin (only 11.6 mm thick but wider and longer than many comparable devices. The display area was a 3.5 inch-wide screen with a multitouch interface and unusually high resolution (160 pixels per inch).";
     private final int CATEGORY_TO_CREATE = 5;
 
     @Autowired
@@ -66,6 +69,8 @@ public class DatabaseSeeder {
         seedProductTable();
         seedOrderTable();
     }
+
+    DecimalFormat f = new DecimalFormat("##.00");
 
     private void seedUsersTable() {
         String sql = "SELECT username, email FROM users U WHERE U.username = \"stipo\" OR " +
