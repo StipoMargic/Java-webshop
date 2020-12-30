@@ -1,12 +1,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
     <header th:fragment="navigation">
         <nav class="d-flex justify-content-between align-items-center flex-wrap">
-            <a href="/" class="ml-4" style="text-decoration: none;">
+            <a th:href="@{/}" class="ml-4" style="text-decoration: none;">
                 <img src="https://cdn6.f-cdn.com/contestentries/565076/14898096/5772c36b99629_thumb900.jpg" class="img-fluid" height="25" width="75" />
             </a>
             <ul class="d-flex align-items-center mb-0 mr-auto ml-4">
-                <li><a class="active" href="#">Home</a></li>
-                <li><a href="#">Products</a></li>
+                <li><a class="active" th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/products}">Products</a></li>
             </ul>
             <div class="user-cart mr-4">
                 <p class="fw-bold mb-1" style="margin-left: auto;"><span class="welcome">Welcome,</span> user!</p>
