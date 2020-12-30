@@ -2,9 +2,11 @@ package com.catalina.webspringbootshop.seeders;
 
 import com.catalina.webspringbootshop.config.Roles;
 import com.catalina.webspringbootshop.entity.Category;
+import com.catalina.webspringbootshop.entity.Order;
 import com.catalina.webspringbootshop.entity.Product;
 import com.catalina.webspringbootshop.entity.User;
 import com.catalina.webspringbootshop.repository.CategoryRepository;
+import com.catalina.webspringbootshop.repository.OrderRepository;
 import com.catalina.webspringbootshop.repository.ProductRepository;
 import com.catalina.webspringbootshop.repository.UserRepository;
 import com.github.javafaker.Faker;
@@ -19,8 +21,7 @@ import org.springframework.stereotype.Component;
 import java.text.DecimalFormat;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Component
 public class DatabaseSeeder {
@@ -30,22 +31,26 @@ public class DatabaseSeeder {
     private ProductRepository productRepository;
     private JdbcTemplate jdbcTemplate;
     private CategoryRepository categoryRepository;
+    private OrderRepository orderRepository;
     private Faker faker;
     private final int USERS_TO_CREATE = 20;
     private final int PRODUCTS_TO_CREATE = 10;
     private final float productPrice = 10.00f;
     private final String description = "The first-generation iPhone was extremely thin (only 11.6 mm thick but wider and longer than many comparable devices. The display area was a 3.5 inch-wide screen with a multitouch interface and unusually high resolution (160 pixels per inch).";
+    private final int CATEGORY_TO_CREATE = 5;
 
     @Autowired
     public DatabaseSeeder(
             UserRepository userRepository,
-            ProductRepository productRepository,
             JdbcTemplate jdbcTemplate,
-            CategoryRepository categoryRepository) {
+            CategoryRepository categoryRepository,
+            ProductRepository productRepository,
+            OrderRepository orderRepository) {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.jdbcTemplate = jdbcTemplate;
         this.categoryRepository = categoryRepository;
+        this.orderRepository = orderRepository;
     }
 
     @PostConstruct
@@ -62,6 +67,7 @@ public class DatabaseSeeder {
         seedUsersTable();
         seedCategoryTable();
         seedProductTable();
+        seedOrderTable();
     }
 
     DecimalFormat f = new DecimalFormat("##.00");
@@ -78,33 +84,53 @@ public class DatabaseSeeder {
         } else {
             logger.info("Stipo is already in db!");
         }
-        for (int i = 0; i < this.USERS_TO_CREATE; i++) {
-            User fake = new User(faker.name().username(), faker.internet().emailAddress(), new BCryptPasswordEncoder().encode(faker.name().name()), Roles.CUSTOMER.toString());
-            userRepository.save(fake);
+        int userSize = userRepository.findAll().size();
+        if (userSize < 2) {
+            for (int i = 0; i < this.USERS_TO_CREATE; i++) {
+                User fake = new User(faker.name().username(), faker.internet().emailAddress(), new BCryptPasswordEncoder().encode(faker.name().name()), Roles.CUSTOMER.toString());
+                userRepository.save(fake);
+            }
+            logger.info("More users added");
+        } else {
+            logger.info("Enough users!");
         }
     }
 
     private void seedCategoryTable() {
-        String sql = "SELECT name FROM category C WHERE C.name = \"laptop\" LIMIT 1";
-        List<Category> c = jdbcTemplate.query(sql, (resultSet, rowNum) -> null);
-        if (c == null || c.size() <= 0) {
-            Category category = new Category("laptop");
-            categoryRepository.save(category);
-            logger.info("Category Seeded");
+        int categorySize = categoryRepository.findAll().size();
+        if (categorySize < 2) {
+            for (int i = 0; i < this.CATEGORY_TO_CREATE; i++) {
+                Category category = new Category(this.faker.name().name());
+                categoryRepository.save(category);
+            }
+            logger.info("More categories added");
         } else {
-            logger.info("Category laptop is already in db!");
+            logger.info("Enough categories!");
+
         }
     }
 
     private void seedProductTable() {
-        Category category = categoryRepository.findByName("laptop");
 
-        for (int i = 0; i < this.PRODUCTS_TO_CREATE; i++) {
-            Product product = new Product(faker.pokemon().name() + i, productPrice, 10, description, category);
+        int productSize = productRepository.findAll().size();
+        if (productSize < 2) {
+            for (int i = 0; i < this.PRODUCTS_TO_CREATE; i++) {
+                Category category = categoryRepository.findAll().get(0);
+                Product product = new Product(faker.pokemon().name() + i, 10.00f, 10, "Testr", category);
 
-            productRepository.save(product);
+                productRepository.save(product);
+            }
+            logger.info("Products added!");
+        } else {
+            logger.info("Enough products!");
         }
     }
 
+    private void seedOrderTable() {
+        List<Product> a = productRepository.findAll();
 
+        Order order = new Order(userRepository.findById(1), 10, 10, new Date(), a);
+        orderRepository.save(order);
+
+    }
 }

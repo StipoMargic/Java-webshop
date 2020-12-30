@@ -14,9 +14,9 @@ import javax.validation.constraints.NotNull;
 @Table(name = "users")
 public class User {
 
-    //@Column(name = "user_id")
+    @Column(name = "user_id")
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(name = "username", unique = true)

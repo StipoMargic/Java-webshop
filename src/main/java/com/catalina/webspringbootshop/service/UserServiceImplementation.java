@@ -69,19 +69,17 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public void edit(User user, User newUser) {
-
-            user.setLastName(newUser.getLastName());
-            user.setFirstName(newUser.getFirstName());
-            user.setUsername(newUser.getUsername());
-            if (newUser.passwordValid()) {
-                System.out.println(newUser.getPassword());
-                user.setPassword(newUser.getPassword());
-            }
-            user.setAddress(newUser.getAddress());
-            user.setEmail(newUser.getEmail());
-            user.setPostalCode(newUser.getPostalCode());
-            user.setState(newUser.getState());
-            user.setCity(newUser.getCity());
+        user.setLastName(newUser.getLastName());
+        user.setFirstName(newUser.getFirstName());
+        user.setUsername(newUser.getUsername());
+        if (newUser.passwordValid()) {
+            user.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
+        }
+        user.setAddress(newUser.getAddress());
+        user.setEmail(newUser.getEmail());
+        user.setPostalCode(newUser.getPostalCode());
+        user.setState(newUser.getState());
+        user.setCity(newUser.getCity());
 
         userRepository.save(user);
     }

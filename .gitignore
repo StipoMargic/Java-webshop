@@ -26,4 +26,3 @@ target/
 .idea/*
 /bin/
 
-src/main/resources/application.properties
