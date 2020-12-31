@@ -1,0 +1,31 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+    <div th:fragment="product_slider (products)" th:remove="tag">
+        <!-- Slider main container -->
+        <div class="col-12">
+            <div class="swiper-container">
+                <div class="swiper-wrapper d-flex align-items-center">
+                    <div th:each="product, productIndex : ${products}" th:remove="tag" th:unless="${productIndex.index > 4}">
+                        <div class="swiper-slide">
+                            <div class="card product-card" style="max-width: 320px;">
+                                <img src="https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="Product" class="img-fluid product-image">
+                                <div class="card-body">
+                                    <h5 class="card-title" th:text="${product.getName()}"></h5>
+                                    <h6 class="card-subtitle mb-2 product-category" th:text="${product.getCategory().getName()}"></h6>
+                                    <p>
+                                        Price: <span class="product-price" th:text="${product.getPrice()} + ' $'"></span>
+                                    </p>
+                                    <p class="card-text product-desc" th:text="${product.getDescription()}"></p>
+                                    <button class="btn btn-dark mt-2 product-cta">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div>
+    </div>
+
+</html>

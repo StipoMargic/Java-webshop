@@ -84,13 +84,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6 offset-sm-3 offset-md-0 col-lg-4 col-xl-3">
-                    <div class="card category-card">
-                        <a href="#" class="category-title">
-                            Laptop
-                        </a>
-                    </div>
-                </div>
+                <div th:replace="fragments/categories-index :: categories_index(categories=${categories})"></div>
             </div>
         </div>
     </section>
@@ -117,31 +111,8 @@
                     </a>
                 </div>
 
-                <!-- Slider main container -->
-                <div class="col-12">
-                    <div class="swiper-container">
-                        <div class="swiper-wrapper d-flex align-items-center">
-                            <div th:each="product, productIndex : ${products}" th:remove="tag" th:unless="${productIndex.index > 4}">
-                                <div class="swiper-slide">
-                                    <div class="card product-card" style="max-width: 320px;">
-                                        <img src="https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="Product" class="img-fluid product-image">
-                                        <div class="card-body">
-                                            <h5 class="card-title" th:text="${product.name}"></h5>
-                                            <h6 class="card-subtitle mb-2 product-category" th:text="${product.getCategory().getName()}"></h6>
-                                            <p>
-                                                Price: <span class="product-price" th:text="${product.price} + ' $'"></span>
-                                            </p>
-                                            <p class="card-text product-desc" th:text="${product.description}"></p>
-                                            <button class="btn btn-dark mt-2 product-cta">Add to Cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
-                    </div>
-                </div>
+                <div th:replace="fragments/product-slider :: product_slider(products=${products})"></div>
+
             </div>
         </div>
     </section>
