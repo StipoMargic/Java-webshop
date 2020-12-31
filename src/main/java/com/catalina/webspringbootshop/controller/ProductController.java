@@ -28,11 +28,18 @@ public class ProductController {
         this.productRepository = productRepository;
     }
 
-    @GetMapping(value = {"/", "/index", "/home"})
-    public String index(ModelMap model) {
+    @GetMapping(value = {"/"})
+    public String dashboard(ModelMap model) {
         model.addAttribute("products", getAllProducts());
 
         return "index";
+    }
+
+    @GetMapping(value = {"/products"})
+    public String index(ModelMap model) {
+        model.addAttribute("products", getAllProducts());
+
+        return "products";
     }
 
     @GetMapping(value = {"/{id}"})

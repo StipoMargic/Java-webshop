@@ -20,28 +20,137 @@
     />
     <!-- CSS -->
     <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/navigation.css}" href="/css/navigation.css" rel="stylesheet" type="text/css" />
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 </head>
 <body>
-    <div class="container">
-        <div id="products" class="mb-3">
-            <h1 class="my-5">List of Products</h1>
-            <div class="row px-4 py-2">
-                    <div th:each="product : ${products}" class="col-md-6 col-lg-4">
+    <div th:replace="fragments/navigation :: navigation"></div>
 
-                        <div class="card product-card">
-                            <img src="https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="Product" class="img-fluid product-image">
-                            <div class="card-body">
-                                <h5 class="card-title" th:text="${product.name}"></h5>
-                                <h6 class="card-subtitle mb-2 product-category" th:text="${product.getCategory().getName()}"></h6>
-                                <p class="product-price" th:text="${product.price + ' $'}"></p>
-                                <p class="card-text product-desc" th:text="${product.description}"></p>
-                                <button class="btn btn-dark product-btn mt-2">Add to Cart</button>
-                            </div>
-                        </div>
-
-                    </div>
-            </div>
+    <div class="home-hero">
+        <div class="hero-banner">
+            <h1 class="home__hero--main-title">
+                Welcome to New Era
+            </h1>
+            <h2 class="home__hero--sub-title mb-4">
+                of Technology
+            </h2>
+            <button class="home__hero--btn btn btn-outline-dark">
+                Embrace It
+            </button>
         </div>
     </div>
+
+    <section class="c-section-title__wrapper">
+        <div class="container">
+            <div class="row px-md-2 px-lg-5 pt-5" style="padding-bottom: 5rem; min-height: 75rem;">
+                <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+                    <div class="c-section-title__text">
+                        <i class="fas fa-info-circle c-section-title__icon"></i>
+                        <h2 class="c-section-title__title">
+                            About
+                        </h2>
+                        <p class="c-section-title__paragraph">
+                            MST Inc. is an American multinational technology company headquartered in Cupertino, California, that designs, develops and sells consumer electronics, computer software, and online services.
+                        </p>
+                    </div>
+                </div>
+                <div class="c-gallery-sm mx-auto">
+                    <img src="https://images.pexels.com/photos/267507/pexels-photo-267507.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" class="img-1">
+                    <img src="https://images.pexels.com/photos/1170412/pexels-photo-1170412.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" class="img-2">
+                    <img src="https://images.pexels.com/photos/326519/pexels-photo-326519.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" class="img-3">
+                    <img src="https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" class="img-4">
+                    <h1 class="c-gallery-sm__title">
+                        <span>Innovations</span> that excite!
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="c-section-title__wrapper">
+        <div class="container">
+            <div class="row px-md-2 px-lg-5 pt-5" style="padding-bottom: 5rem;">
+                <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2" style="margin-bottom: 5rem;">
+                    <div class="c-section-title__text">
+                        <i class="fas fa-microchip c-section-title__icon"></i>
+                        <h2 class="c-section-title__title">
+                            Technologies
+                        </h2>
+                        <p class="c-section-title__paragraph">
+                            MST hardware, software, and services work together to deliver a seamless experience that just works. You can start a project on Mac and finish it on iPad, use your screens side by side to extend your workspace, and even draw with Apple Pencil on your iPad or use your iPhone to make live updates on your Mac.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 offset-sm-3 offset-md-0 col-lg-4 col-xl-3">
+                    <div class="card category-card">
+                        <a href="#" class="category-title">
+                            Laptop
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="c-section-title__wrapper">
+        <div class="container">
+            <div class="row px-md-2 px-lg-5 pt-5" style="padding-bottom: 5rem;">
+                <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2" style="margin-bottom: 5rem;">
+                    <div class="c-section-title__text">
+                        <i class="fas fa-rocket c-section-title__icon"></i>
+                        <h2 class="c-section-title__title">
+                            Rock-stars
+                        </h2>
+                        <p class="c-section-title__paragraph">
+                            MST hardware, software, and services work together to deliver a seamless experience that just works. You can start a project on Mac and finish it on iPad, use your screens side by side to extend your workspace, and even draw with Apple Pencil on your iPad or use your iPhone to make live updates on your Mac.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-12 mb-5">
+                    <a th:href="@{/products}" class="all-products-link">
+                        See all products <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+
+                <!-- Slider main container -->
+                <div class="col-12">
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper d-flex align-items-center">
+                            <div th:each="product, productIndex : ${products}" th:remove="tag" th:unless="${productIndex.index > 4}">
+                                <div class="swiper-slide">
+                                    <div class="card product-card" style="max-width: 320px;">
+                                        <img src="https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="Product" class="img-fluid product-image">
+                                        <div class="card-body">
+                                            <h5 class="card-title" th:text="${product.name}"></h5>
+                                            <h6 class="card-subtitle mb-2 product-category" th:text="${product.getCategory().getName()}"></h6>
+                                            <p>
+                                                Price: <span class="product-price" th:text="${product.price} + ' $'"></span>
+                                            </p>
+                                            <p class="card-text product-desc" th:text="${product.description}"></p>
+                                            <button class="btn btn-dark mt-2 product-cta">Add to Cart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div th:replace="fragments/footer :: footer"></div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/386023a665.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
 </body>
 </html>
