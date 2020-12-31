@@ -1,6 +1,8 @@
 package com.catalina.webspringbootshop.controller;
 
+import com.catalina.webspringbootshop.entity.Category;
 import com.catalina.webspringbootshop.entity.Product;
+import com.catalina.webspringbootshop.repository.CategoryRepository;
 import com.catalina.webspringbootshop.repository.ProductRepository;
 import com.catalina.webspringbootshop.service.ProductService;
 import org.apache.commons.lang3.StringUtils;
@@ -22,15 +24,18 @@ public class ProductController {
     private final ProductService productService;
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-    public ProductController(ProductRepository productRepository, ProductService productService) {
+    public ProductController(ProductRepository productRepository, ProductService productService, CategoryRepository categoryRepository) {
         this.productService = productService;
         this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping(value = {"/"})
     public String dashboard(ModelMap model) {
         model.addAttribute("products", getAllProducts());
+        model.addAttribute("categories", listAllCategories());
 
         return "index";
     }
@@ -38,6 +43,7 @@ public class ProductController {
     @GetMapping(value = {"/products"})
     public String index(ModelMap model) {
         model.addAttribute("products", getAllProducts());
+        model.addAttribute("categories", listAllCategories());
 
         return "products";
     }
@@ -96,6 +102,10 @@ public class ProductController {
         return productService.findAllByOrderByAsc();
     }
 
+
+    public List<Category> listAllCategories() {
+        return categoryRepository.findAll();
+    }
 
     private String invalidRequestResponse(RedirectAttributes attr) {
         attr.addFlashAttribute("error", "Invalid Request Method");
