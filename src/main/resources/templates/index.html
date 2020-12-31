@@ -23,21 +23,48 @@
     <link th:href="@{/css/navigation.css}" href="/css/navigation.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<div th:replace="fragments/navigation :: navigation"></div>
+    <div th:replace="fragments/navigation :: navigation"></div>
 
-<div class="home-hero">
-    <div class="hero-banner">
-        <h1 class="home__hero--main-title">
-            Welcome to New Era
-        </h1>
-        <h2 class="home__hero--sub-title mb-4">
-            of Technology
-        </h2>
-        <button class="home__hero--btn btn btn-outline-dark">
-            Embrace It
-        </button>
+    <div class="home-hero">
+        <div class="hero-banner">
+            <h1 class="home__hero--main-title">
+                Welcome to New Era
+            </h1>
+            <h2 class="home__hero--sub-title mb-4">
+                of Technology
+            </h2>
+            <button class="home__hero--btn btn btn-outline-dark">
+                Embrace It
+            </button>
+        </div>
     </div>
-</div>
+
+    <section class="c-section-title__wrapper">
+        <div class="container">
+            <div class="row px-5 pt-5" style="padding-bottom: 5rem; min-height: 75rem;">
+                <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+                    <div class="c-section-title__text">
+                        <i class="fas fa-info-circle c-section-title__icon"></i>
+                        <h2 class="c-section-title__title">
+                            About
+                        </h2>
+                        <p class="c-section-title__paragraph">
+                            MST Inc. is an American multinational technology company headquartered in Cupertino, California, that designs, develops and sells consumer electronics, computer software, and online services.
+                        </p>
+                    </div>
+                </div>
+                <div class="c-gallery-sm mx-auto">
+                    <img src="https://images.pexels.com/photos/267507/pexels-photo-267507.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" class="img-1">
+                    <img src="https://images.pexels.com/photos/1170412/pexels-photo-1170412.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" class="img-2">
+                    <img src="https://images.pexels.com/photos/326519/pexels-photo-326519.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" class="img-3">
+                    <img src="https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260" class="img-4">
+                    <h1 class="c-gallery-sm__title">
+                        <span>Innovations</span> that excite!
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </section>
 
 <script src="https://kit.fontawesome.com/386023a665.js" crossorigin="anonymous"></script>
 </body>
