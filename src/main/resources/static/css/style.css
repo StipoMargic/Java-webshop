@@ -96,7 +96,7 @@ label {
 }
 
 .product-cta {
-    display: block;
+    display: inline-block;
     margin: 0 auto;
 }
 
@@ -293,6 +293,7 @@ footer {
     flex-wrap: wrap;
     box-shadow: 0 -5px 5px #cacaca;
     max-width: 1600px;
+    width: 100%;
     margin: 0 auto;
     border-top-left-radius: 2rem;
     border-top-right-radius: 2rem;
@@ -341,6 +342,13 @@ footer {
 
 .footer-right span {
     font-weight: 400;
+}
+
+.item-quantity {
+    width: 3rem;
+    text-align: center;
+    outline: none;
+    border: none;
 }
 
 @media only screen and (max-width: 768px) {

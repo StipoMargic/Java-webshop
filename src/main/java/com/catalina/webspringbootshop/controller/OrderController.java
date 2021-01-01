@@ -35,6 +35,11 @@ public class OrderController {
         return invalidRequestResponse(attr);
     }
 
+    @GetMapping(value = {"/cart"})
+    public String cart() {
+        return "cart";
+    }
+
     private String invalidRequestResponse(RedirectAttributes attr) {
         attr.addFlashAttribute("error", "Invalid Request Method");
         return "redirect:/";
