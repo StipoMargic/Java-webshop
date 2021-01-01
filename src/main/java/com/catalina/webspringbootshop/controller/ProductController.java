@@ -8,6 +8,8 @@ import com.catalina.webspringbootshop.service.ProductService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,10 +35,11 @@ public class ProductController {
     }
 
     @GetMapping(value = {"/"})
-    public String dashboard(ModelMap model) {
+    public String dashboard(ModelMap model, @AuthenticationPrincipal UserDetails userDetails) {
         model.addAttribute("products", getAllProducts());
         model.addAttribute("categories", listAllCategories());
-
+        model.addAttribute("userDetails", userDetails);
+        
         return "index";
     }
 
