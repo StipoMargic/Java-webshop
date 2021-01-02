@@ -31,7 +31,7 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/admin/user/{id}", method = {RequestMethod.GET})
-    public String get(ModelMap model, @PathVariable("id") int id, HttpServletRequest req, @AuthenticationPrincipal UserDetails userDetails) {
+    public String get(ModelMap model, @PathVariable("id") int id, HttpServletRequest req) {
         User user = userRepository.findById(id);
         if (null == user) {
             return "error";
