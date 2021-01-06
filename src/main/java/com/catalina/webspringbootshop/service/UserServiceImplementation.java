@@ -47,6 +47,7 @@ public class UserServiceImplementation implements UserService {
 
         if (token.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(token);
+            System.out.println("User " + username);
             logger.debug(String.format("User %s logged in successfully!", username));
         } else {
             logger.error(String.format("Error with %s authentication!", username));

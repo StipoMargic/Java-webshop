@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 </head>
 <body style="display: flex; flex-direction: column;">
-    <div th:replace="fragments/navigation :: navigation"></div>
+    <div th:replace="fragments/navigation :: navigation(userDetails=${userDetails})"></div>
 
     <!--Section: Block Content-->
     <section class="my-5 px-5" style="max-width: 1600px; margin: 0 auto; flex-grow: 1">
@@ -44,41 +44,44 @@
                         <h5 class="mb-4">Cart (<span>2</span> items)</h5>
 
                         <div class="row mb-4">
-                            <div class="col-md-5 col-lg-3 col-xl-3">
-                                <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
-                                    <img class="img-fluid w-100"
-                                         src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" alt="Sample">
+                            <div class="col-12">
+                                <div class="col-md-5 col-lg-3 col-xl-3">
+                                    <div class="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
+                                        <img class="img-fluid w-100"
+                                             src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg" alt="Sample">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-7 col-lg-9 col-xl-9">
-                                <div>
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <h5>Blue denim shirt</h5>
-                                            <p class="mb-3 text-muted text-uppercase small">Shirt - blue</p>
-                                        </div>
-                                        <div>
-                                            <div class="def-number-input number-input safari_only mb-0 w-100">
-                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                                        class="btn btn-outline-dark btn-sm" style="width: 2rem;">-</button>
-                                                <input class="item-quantity" min="0" name="quantity" value="1" type="number">
-                                                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                                        class="btn btn-outline-dark btn-sm" style="width: 2rem;">+</button>
+                                <div class="col-md-7 col-lg-9 col-xl-9">
+                                    <div>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <div th:if="${not #lists.isEmpty(cartItems)}">
+                                                    <h5 th:text="${cartItems.get(0).getProduct().getName()}"></h5>
+                                                </div>
+                                                <p class="mb-3 text-muted text-uppercase small">Shirt - blue</p>
+                                            </div>
+                                            <div>
+                                                <div class="def-number-input number-input safari_only mb-0 w-100">
+                                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                                                            class="btn btn-outline-dark btn-sm" style="width: 2rem;">-</button>
+                                                    <input class="item-quantity" min="0" name="quantity" value="1" type="number">
+                                                    <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                                            class="btn btn-outline-dark btn-sm" style="width: 2rem;">+</button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <a href="#!" type="button" class="card-link-secondary small text-uppercase mr-3"><i
-                                                    class="fas fa-trash-alt mr-1"></i> Remove item </a>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <a href="#!" type="button" class="card-link-secondary small text-uppercase mr-3"><i
+                                                        class="fas fa-trash-alt mr-1"></i> Remove item </a>
+                                            </div>
+                                            <p class="mb-0"><span><strong id="summary">$17.99</strong></span></p>
                                         </div>
-                                        <p class="mb-0"><span><strong id="summary">$17.99</strong></span></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <hr class="mb-4">
-
                     </div>
                 </div>
 

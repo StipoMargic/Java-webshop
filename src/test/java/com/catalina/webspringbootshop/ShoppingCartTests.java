@@ -30,12 +30,12 @@ public class ShoppingCartTests {
     @Test
     public void testAddOneCartItem() {
         Product product = entityManager.find(Product.class, 36);
-        User user = entityManager.find(User.class, 3);
+        User user = entityManager.find(User.class, 1);
 
         CartItem newItem = new CartItem();
         newItem.setUser(user);
         newItem.setProduct(product);
-        newItem.setQuantity(5);
+        newItem.setQuantity(6);
 
         CartItem saveCartItem = cartRepo.save(newItem);
         assertTrue(saveCartItem.getId() > 0);

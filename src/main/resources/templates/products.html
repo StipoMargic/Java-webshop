@@ -23,7 +23,7 @@
     <link th:href="@{/css/navigation.css}" href="/css/navigation.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<div th:replace="fragments/navigation :: navigation">
+<div th:replace="fragments/navigation :: navigation(userDetails=${userDetails})">
 
 </div>
 <div class="container">

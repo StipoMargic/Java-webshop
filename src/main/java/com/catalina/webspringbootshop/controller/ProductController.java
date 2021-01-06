@@ -34,6 +34,7 @@ public class ProductController {
         this.categoryRepository = categoryRepository;
     }
 
+
     @GetMapping(value = {"/"})
     public String dashboard(ModelMap model, @AuthenticationPrincipal UserDetails userDetails) {
         model.addAttribute("products", getAllProducts());
@@ -44,9 +45,10 @@ public class ProductController {
     }
 
     @GetMapping(value = {"/products"})
-    public String index(ModelMap model) {
+    public String index(ModelMap model, @AuthenticationPrincipal UserDetails userDetails) {
         model.addAttribute("products", getAllProducts());
         model.addAttribute("categories", listAllCategories());
+        model.addAttribute("userDetails", userDetails);
 
         return "products";
     }

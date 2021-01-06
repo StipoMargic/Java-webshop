@@ -35,7 +35,7 @@ public class OrderController {
         return invalidRequestResponse(attr);
     }
 
-    @GetMapping(value = {"/cart"})
+    @GetMapping(value = {"/cartt"})
     public String cart() {
         return "cart";
     }
