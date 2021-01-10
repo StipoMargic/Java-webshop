@@ -295,6 +295,11 @@ label {
     font-size: 0.7rem;
 }
 
+.cart-item-price {
+    font-size: 1.35rem;
+    font-weight: 500;
+}
+
 .all-products-link {
     font-size: 1.3rem;
     color: black;

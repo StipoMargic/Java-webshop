@@ -31,6 +31,7 @@ public class CartController {
     @Autowired
     private UserRepository userRepository;
 
+    private final double TAX = 0.2533;
 
     @GetMapping("/cart")
     public String showShoppingCart(Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -38,16 +39,20 @@ public class CartController {
         User user = userRepository.findByUsername(userDetails.getUsername());
         List<CartItem> cartItems = cartService.listCartItems(user);
 
+        double cartSum = cartItems.stream().mapToDouble(o -> o.getProduct().getPrice()).sum();
+        double totalCartSum = Math.floor((cartSum + cartSum * TAX) * 100) / 100;
+
         model.addAttribute("userDetails", userDetails);
+        model.addAttribute("cartSum", cartSum);
+        model.addAttribute("totalCartSum", totalCartSum);
         model.addAttribute("cartItems", cartItems);
 
         return "cart";
     }
 
-    @GetMapping("/cartt/add/{id}/{qty}")
+    @GetMapping("/cart/add/{id}/{qty}")
     public String add(@PathVariable("id") int id, @PathVariable("qty") int quantity,
                       @AuthenticationPrincipal UserDetails userDetails) {
-        System.out.println("addproducttocart" + id + "-" + quantity);
         if(userDetails == null || userDetails instanceof AnonymousAuthenticationToken) {
             return "redirect:/";
         }
@@ -56,7 +61,7 @@ public class CartController {
         Integer addedQuantity = cartService.addProduct(id, quantity, user);
         System.out.println("product added");
 
-        return "redirect:/cartt";
+        return "redirect:/cart";
     }
 
     @RequestMapping(value = "/cartt/update/{id}/{qty}", method = {RequestMethod.POST})
@@ -66,24 +71,24 @@ public class CartController {
         User user = userRepository.findByUsername(userDetails.getUsername());
 
         if(user == null) {
-            return "redirect: /";
+            return "redirect:/";
         }
 
         cartService.updateQuantity(id, quantity, user);
         return "redirect:/cartt";
     }
 
-    @PostMapping("/cartt/remove/{id}")
+    @GetMapping("/cart/remove/{id}")
     public String remove(@PathVariable("id") int id,
                          @AuthenticationPrincipal UserDetails userDetails) {
 
         User user = userRepository.findByUsername(userDetails.getUsername());
 
         if(user == null) {
-            return "redirect: /";
+            return "redirect:/";
         }
         cartService.removeProduct(id, user);
 
-        return "redirect:/cartt";
+        return "redirect:/cart";
     }
 }

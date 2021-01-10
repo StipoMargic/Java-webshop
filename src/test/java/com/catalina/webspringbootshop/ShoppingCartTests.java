@@ -50,4 +50,13 @@ public class ShoppingCartTests {
         assertEquals(1, cartItems.size());
     }
 
+    @Test
+    public void TestDeleteOneCartItem() {
+        Product product = entityManager.find(Product.class, 36);
+        User user = entityManager.find(User.class, 1);
+
+        cartRepo.deleteByUserAndProduct(user.getId(), product.getId());
+        System.out.println("Product deleted from cart");
+    }
+
 }
