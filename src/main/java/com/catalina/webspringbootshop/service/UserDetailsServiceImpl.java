@@ -31,6 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username);
+        System.out.println(user.getUsername());
 
         if (user != null) {
             Set<GrantedAuthority> authorities = new HashSet<>();

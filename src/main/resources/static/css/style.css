@@ -13,6 +13,17 @@ body {
             #f5f7fa 74%
     );
 }
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
 a, a:hover {
     text-decoration: none;
 }
@@ -277,6 +288,11 @@ label {
 .swiper-button-prev {
     position: relative;
     z-index: 10;
+}
+
+.cart-item-description {
+    max-width: 250px;
+    font-size: 0.7rem;
 }
 
 .all-products-link {

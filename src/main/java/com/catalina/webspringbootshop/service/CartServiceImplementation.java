@@ -1,6 +1,11 @@
 package com.catalina.webspringbootshop.service;
 
+import com.catalina.webspringbootshop.entity.CartItem;
 import com.catalina.webspringbootshop.entity.Product;
+import com.catalina.webspringbootshop.entity.User;
+import com.catalina.webspringbootshop.repository.CartItemRepository;
+import com.catalina.webspringbootshop.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
@@ -9,41 +14,52 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
-@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+//@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Transactional
 public class CartServiceImplementation implements CartService{
-    private Map<Product, Integer> cart = new LinkedHashMap<>();
 
-    @Override
-    public void addProduct(Product product) {
+    @Autowired
+    private CartItemRepository cartRepo;
 
+    @Autowired
+    private ProductRepository productRepo;
+
+    public List<CartItem> listCartItems(User user) {
+        return cartRepo.findByUser(user);
     }
 
-    @Override
-    public void removeProduct(Product product) {
+    public Integer addProduct(Integer product_id, Integer quantity, User user) {
+        Integer addedQuantity = quantity;
 
+        Product product = productRepo.findById(product_id).get();
+
+        CartItem cartItem = cartRepo.findByUserAndProduct(user, product);
+
+        if(cartItem != null) {
+            addedQuantity = cartItem.getQuantity() + quantity;
+            cartItem.setQuantity(addedQuantity);
+        } else {
+            cartItem = new CartItem();
+            cartItem.setQuantity(quantity);
+            cartItem.setUser(user);
+            cartItem.setProduct(product);
+        }
+        cartRepo.save(cartItem);
+
+
+        return addedQuantity;
     }
 
-    @Override
-    public void clearProducts() {
-
+    public void updateQuantity(Integer productId, Integer quantity, User user) {
+        cartRepo.updateQuantity(quantity,productId,user.getId());
     }
 
-    @Override
-    public Map<Product, Integer> productsInCart() {
-        return null;
-    }
-
-    @Override
-    public BigDecimal totalPrice() {
-        return null;
-    }
-
-    @Override
-    public void cartCheckout() {
-
+    public void removeProduct(Integer productId, User user) {
+        cartRepo.deleteByUserAndProduct(user.getId(), productId);
     }
 }
+
