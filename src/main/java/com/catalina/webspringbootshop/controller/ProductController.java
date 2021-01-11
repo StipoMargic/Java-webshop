@@ -1,13 +1,19 @@
 package com.catalina.webspringbootshop.controller;
 
+import com.catalina.webspringbootshop.entity.CartItem;
 import com.catalina.webspringbootshop.entity.Category;
 import com.catalina.webspringbootshop.entity.Product;
+import com.catalina.webspringbootshop.entity.User;
 import com.catalina.webspringbootshop.repository.CategoryRepository;
 import com.catalina.webspringbootshop.repository.ProductRepository;
+import com.catalina.webspringbootshop.repository.UserRepository;
+import com.catalina.webspringbootshop.service.CartService;
 import com.catalina.webspringbootshop.service.ProductService;
+import com.catalina.webspringbootshop.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -23,6 +29,17 @@ import java.util.List;
 
 @Controller
 public class ProductController {
+    @Autowired
+    private CartService cartService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    private final double TAX = 0.2533;
+
     private final ProductService productService;
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     private final ProductRepository productRepository;
@@ -37,18 +54,34 @@ public class ProductController {
 
     @GetMapping(value = {"/"})
     public String dashboard(ModelMap model, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        List<CartItem> cartItems = cartService.listCartItems(user);
+        double cartSum = cartItems.stream().mapToDouble(o -> o.getProduct().getPrice()).sum();
+        double totalCartSum = Math.floor((cartSum + cartSum * TAX) * 100) / 100;
+        int totalCartItems = cartItems.stream().mapToInt(el -> el.getQuantity()).sum();
+
         model.addAttribute("products", getAllProducts());
         model.addAttribute("categories", listAllCategories());
         model.addAttribute("userDetails", userDetails);
-        
+        model.addAttribute("totalCartSum", totalCartSum);
+        model.addAttribute("totalCartItems", totalCartItems);
+
         return "index";
     }
 
     @GetMapping(value = {"/products"})
     public String index(ModelMap model, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        List<CartItem> cartItems = cartService.listCartItems(user);
+        double cartSum = cartItems.stream().mapToDouble(o -> o.getProduct().getPrice()).sum();
+        double totalCartSum = Math.floor((cartSum + cartSum * TAX) * 100) / 100;
+        int totalCartItems = cartItems.stream().mapToInt(el -> el.getQuantity()).sum();
+
         model.addAttribute("products", getAllProducts());
         model.addAttribute("categories", listAllCategories());
         model.addAttribute("userDetails", userDetails);
+        model.addAttribute("totalCartSum", totalCartSum);
+        model.addAttribute("totalCartItems", totalCartItems);
 
         return "products";
     }

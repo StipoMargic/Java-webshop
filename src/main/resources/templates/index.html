@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 </head>
 <body>
-    <div th:replace="fragments/navigation :: navigation(userDetails=${userDetails})"></div>
+    <div th:replace="fragments/navigation :: navigation(userDetails=${userDetails}, totalCartSum=${totalCartSum}, totalCartItems=${totalCartItems})"></div>
 
     <div class="home-hero">
         <div class="hero-banner">
@@ -36,9 +36,9 @@
             <h2 class="home__hero--sub-title mb-4">
                 of Technology
             </h2>
-            <button class="home__hero--btn btn btn-outline-dark">
+            <a th:href="@{/products}" class="home__hero--btn btn btn-outline-dark">
                 Embrace It
-            </button>
+            </a>
         </div>
     </div>
 

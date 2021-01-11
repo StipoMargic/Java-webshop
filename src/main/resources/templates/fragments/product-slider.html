@@ -16,7 +16,9 @@
                                         Price: <span class="product-price" th:text="${product.getPrice()} + ' $'"></span>
                                     </p>
                                     <p class="card-text product-desc" th:text="${product.getDescription()}"></p>
-                                    <a th:href="@{'/cart/add/' + ${product.getId()} + '/1'}" class="btn btn-dark mt-2 product-cta">Add to Cart</a>
+                                    <div class="mt-2" style="width: 100%; text-align: center;">
+                                        <a th:href="@{'/cart/add/' + ${product.getId()} + '/1'}" class="btn btn-dark mt-2 product-cta">Add to Cart</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

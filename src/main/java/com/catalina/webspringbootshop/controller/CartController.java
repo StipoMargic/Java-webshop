@@ -38,14 +38,17 @@ public class CartController {
 
         User user = userRepository.findByUsername(userDetails.getUsername());
         List<CartItem> cartItems = cartService.listCartItems(user);
-
         double cartSum = cartItems.stream().mapToDouble(o -> o.getProduct().getPrice()).sum();
         double totalCartSum = Math.floor((cartSum + cartSum * TAX) * 100) / 100;
+        int totalCartItems = cartItems.stream().mapToInt(el -> el.getQuantity()).sum();
+        boolean disableCheckoutButton = cartItems.isEmpty();
 
         model.addAttribute("userDetails", userDetails);
         model.addAttribute("cartSum", cartSum);
         model.addAttribute("totalCartSum", totalCartSum);
         model.addAttribute("cartItems", cartItems);
+        model.addAttribute("totalCartItems", totalCartItems);
+        model.addAttribute("disableCheckoutButton", disableCheckoutButton);
 
         return "cart";
     }
