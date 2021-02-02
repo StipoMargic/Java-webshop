@@ -123,10 +123,8 @@
                             </li>
                         </ul>
 
-                        <div th:switch="${disableCheckoutButton}" th:remove="tag">
-                            <button type="button" class="btn btn-primary btn-block text-uppercase" th:case="true" disabled>go to checkout</button>
-                            <button type="button" class="btn btn-primary btn-block text-uppercase" th:case="false">go to checkout</button>
-                        </div>
+                        <a th:href="@{/checkout}" class="btn btn-primary btn-block text-uppercase">place order</a>
+
                     </div>
                 </div>
                 <!-- Card -->

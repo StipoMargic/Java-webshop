@@ -1,8 +1,10 @@
 package com.catalina.webspringbootshop.controller;
 
 import com.catalina.webspringbootshop.entity.CartItem;
+import com.catalina.webspringbootshop.entity.Order;
 import com.catalina.webspringbootshop.entity.Product;
 import com.catalina.webspringbootshop.entity.User;
+import com.catalina.webspringbootshop.repository.OrderRepository;
 import com.catalina.webspringbootshop.repository.UserRepository;
 import com.catalina.webspringbootshop.service.*;
 import org.slf4j.Logger;
@@ -16,11 +18,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
 public class CartController {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderServiceImplementation orderService;
 
     @Autowired
     private CartService cartService;
@@ -94,4 +106,31 @@ public class CartController {
 
         return "redirect:/cart";
     }
+
+    @PostMapping("/checkout")
+    public String checkout(@AuthenticationPrincipal UserDetails userDetails, HttpServletRequest req, RedirectAttributes attr) {
+        List<Product> listProducts = new ArrayList<>();
+        int quantity = 0;
+        int total = 0;
+        Date orderDate = new Date();
+
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        List<CartItem> cartItems = cartService.listCartItems(user);
+
+        for(CartItem item: cartItems) {
+            listProducts.add(item.getProduct());
+            quantity += item.getQuantity();
+            total += item.getProduct().getPrice();
+        }
+
+        Order order = new Order(user, quantity, total, orderDate, listProducts);
+        orderService.saveOrder(order, attr, req);
+
+
+        for(CartItem item: cartItems) {
+            cartService.removeProduct(item.getId(), user);
+        }
+        return "redirect:/index";
+    }
 }
+
