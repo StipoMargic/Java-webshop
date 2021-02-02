@@ -54,7 +54,11 @@ public class ProductController {
 
     @GetMapping(value = {"/"})
     public String dashboard(ModelMap model, @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return "redirect:/login";
+        }
         User user = userRepository.findByUsername(userDetails.getUsername());
+
         List<CartItem> cartItems = cartService.listCartItems(user);
         double cartSum = cartItems.stream().mapToDouble(o -> o.getProduct().getPrice()).sum();
         double totalCartSum = Math.floor((cartSum + cartSum * TAX) * 100) / 100;
