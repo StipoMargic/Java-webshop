@@ -130,7 +130,7 @@ public class DatabaseSeeder {
     private void seedOrderTable() {
         List<Product> a = productRepository.findAll();
 
-        Order order = new Order(userRepository.findById(1), 10, 10, new Date(), a);
+        Order order = new Order(userRepository.findById(1), 10, 10.1f, new Date(), a);
         orderRepository.save(order);
 
     }

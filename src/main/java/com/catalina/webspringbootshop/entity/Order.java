@@ -33,7 +33,7 @@ public class Order {
     private User user;
 
     private int quantity;
-    private int total;
+    private float total;
     private Date orderDate;
     @ManyToMany
     @JoinTable(name = "order_products", joinColumns = @JoinColumn(name = "order_id", nullable=false), inverseJoinColumns =
@@ -64,11 +64,11 @@ public class Order {
         this.quantity = quantity;
     }
 
-    public int getTotal() {
+    public float getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(float total) {
         this.total = total;
     }
 
@@ -91,7 +91,7 @@ public class Order {
     public Order() {}
 
 
-    public Order(@NotNull User user, int quantity, int total, Date orderDate, List<Product> listProducts) {
+    public Order(@NotNull User user, int quantity, float total, Date orderDate, List<Product> listProducts) {
         this.user = user;
         this.quantity = quantity;
         this.total = total;

@@ -102,16 +102,17 @@ public class CartController {
         if(user == null) {
             return "redirect:/";
         }
-        cartService.removeProduct(id, user);
+        cartService.removeOneProductById(id, user);
 
         return "redirect:/cart";
     }
 
-    @PostMapping("/checkout")
+    @GetMapping("/checkout")
     public String checkout(@AuthenticationPrincipal UserDetails userDetails, HttpServletRequest req, RedirectAttributes attr) {
+            System.out.println("1");
         List<Product> listProducts = new ArrayList<>();
         int quantity = 0;
-        int total = 0;
+        float total = 0;
         Date orderDate = new Date();
 
         User user = userRepository.findByUsername(userDetails.getUsername());
@@ -120,17 +121,14 @@ public class CartController {
         for(CartItem item: cartItems) {
             listProducts.add(item.getProduct());
             quantity += item.getQuantity();
-            total += item.getProduct().getPrice();
+            total += item.getProduct().getPrice()  + item.getProduct().getPrice() * TAX;
+            cartService.removeProduct(user);
         }
 
         Order order = new Order(user, quantity, total, orderDate, listProducts);
         orderService.saveOrder(order, attr, req);
 
-
-        for(CartItem item: cartItems) {
-            cartService.removeProduct(item.getId(), user);
-        }
-        return "redirect:/index";
+        return "redirect:/";
     }
 }
 

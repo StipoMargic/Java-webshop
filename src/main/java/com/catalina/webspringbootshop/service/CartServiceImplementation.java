@@ -58,7 +58,11 @@ public class CartServiceImplementation implements CartService{
         cartRepo.updateQuantity(quantity,productId,user.getId());
     }
 
-    public void removeProduct(Integer productId, User user) {
+    public void removeProduct(User user) {
+        cartRepo.deleteByUser(user);
+    }
+
+    public void removeOneProductById(Integer productId, User user) {
         cartRepo.deleteByUserAndProduct(user.getId(), productId);
     }
 
