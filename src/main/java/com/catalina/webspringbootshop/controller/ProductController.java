@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ProductController {
@@ -63,11 +64,13 @@ public class ProductController {
         double cartSum = cartItems.stream().mapToDouble(o -> o.getProduct().getPrice()).sum();
         double totalCartSum = Math.floor((cartSum + cartSum * TAX) * 100) / 100;
         int totalCartItems = cartItems.stream().mapToInt(el -> el.getQuantity()).sum();
+        List<Integer> productIds = cartItems.stream().map(i -> i.getProduct().getId()).collect(Collectors.toList());
 
         model.addAttribute("products", getAllProducts());
         model.addAttribute("categories", listAllCategories());
         model.addAttribute("userDetails", userDetails);
         model.addAttribute("totalCartSum", totalCartSum);
+        model.addAttribute("productIds", productIds);
         model.addAttribute("totalCartItems", totalCartItems);
 
         return "index";
@@ -80,11 +83,13 @@ public class ProductController {
         double cartSum = cartItems.stream().mapToDouble(o -> o.getProduct().getPrice()).sum();
         double totalCartSum = Math.floor((cartSum + cartSum * TAX) * 100) / 100;
         int totalCartItems = cartItems.stream().mapToInt(el -> el.getQuantity()).sum();
+        List<Integer> productIds = cartItems.stream().map(i -> i.getProduct().getId()).collect(Collectors.toList());
 
         model.addAttribute("products", getAllProducts());
         model.addAttribute("categories", listAllCategories());
         model.addAttribute("userDetails", userDetails);
         model.addAttribute("totalCartSum", totalCartSum);
+        model.addAttribute("productIds", productIds);
         model.addAttribute("totalCartItems", totalCartItems);
 
         return "products";
