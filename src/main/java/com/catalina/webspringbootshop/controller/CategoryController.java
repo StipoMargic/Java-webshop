@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class CategoryController {
@@ -54,11 +55,12 @@ public class CategoryController {
         double cartSum = cartItems.stream().mapToDouble(o -> o.getProduct().getPrice()).sum();
         double totalCartSum = Math.floor((cartSum + cartSum * TAX) * 100) / 100;
         int totalCartItems = cartItems.stream().mapToInt(el -> el.getQuantity()).sum();
+        List<Integer> productIds = cartItems.stream().map(i -> i.getProduct().getId()).collect(Collectors.toList());
 
 
         model.addAttribute("products", listProductsByCategory(category));
         model.addAttribute("name", category.getName());
-
+        model.addAttribute("productIds", productIds);
         model.addAttribute("userDetails", userDetails);
         model.addAttribute("totalCartSum", totalCartSum);
         model.addAttribute("totalCartItems", totalCartItems);
