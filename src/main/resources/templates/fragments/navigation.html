@@ -8,6 +8,7 @@
                 <li><a th:href="@{/}">Home</a></li>
                 <li><a th:href="@{/products}">Products</a></li>
                 <li><a th:href="@{/cart}">Cart</a></li>
+                <li><a th:href="@{/logout}" style="color: #ddd">Logout</a></li>
             </ul>
             <div class="user-cart mr-4">
                 <p class="fw-bold mb-1" style="margin-left: auto;"><span class="welcome">Welcome,</span> <span th:text="${userDetails.getUsername()}"></span></p>

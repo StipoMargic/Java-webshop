@@ -61,12 +61,20 @@
                                                     <p th:text="${item.getProduct().getDescription()}" class="mb-3 text-muted small cart-item-description"></p>
                                                 </div>
                                                 <div>
-                                                    <div class="def-number-input number-input safari_only mb-0 w-100">
-                                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
-                                                                class="btn btn-outline-dark btn-sm" style="width: 2rem">-</button>
+                                                    <div class="def-number-input number-input safari_only mb-0 w-100" style="display: flex;">
+                                                        <form action="/item/quantity" method="post" style="margin-right: 0.2rem;">
+                                                            <input type="hidden" value="-" name="action" />
+                                                            <input type="hidden" th:value="${item.getProduct().getId()}" th:attr="name='product_id'" />
+                                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                                                                    class="btn btn-outline-dark btn-sm" style="width: 2rem">-</button>
+                                                        </form>
                                                         <input class="item-quantity text-center" min="1" name="quantity" value="1" type="number">
-                                                        <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                                                class="btn btn-outline-dark btn-sm" style="width: 2rem">+</button>
+                                                        <form action="/item/quantity" method="post" style="margin-left: 0.2rem;">
+                                                            <input type="hidden" value="+" name="action" />
+                                                            <input type="hidden" th:value="${item.getProduct().getId()}" th:attr="name='product_id'" />
+                                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()"
+                                                                    class="btn btn-outline-dark btn-sm" style="width: 2rem">+</button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -123,7 +131,9 @@
                             </li>
                         </ul>
 
-                        <a th:href="@{/checkout}" class="btn btn-primary btn-block text-uppercase">place order</a>
+                        <div th:if="${not disableCheckoutButton}" th:remove="tag">
+                            <a th:href="@{/checkout}" class="btn btn-primary btn-block text-uppercase">place order</a>
+                        <div>
 
                     </div>
                 </div>

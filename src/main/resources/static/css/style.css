@@ -6,6 +6,9 @@
 }
 body {
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background-color: #b8c6db;
     background-image: linear-gradient(
             315deg,

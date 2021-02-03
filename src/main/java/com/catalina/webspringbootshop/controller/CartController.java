@@ -108,7 +108,7 @@ public class CartController {
     }
 
     @GetMapping("/checkout")
-    public String checkout(@AuthenticationPrincipal UserDetails userDetails, HttpServletRequest req, RedirectAttributes attr) {
+    public String checkout(Model model, @AuthenticationPrincipal UserDetails userDetails, HttpServletRequest req, RedirectAttributes attr) {
             System.out.println("1");
         List<Product> listProducts = new ArrayList<>();
         int quantity = 0;
@@ -128,7 +128,10 @@ public class CartController {
         Order order = new Order(user, quantity, total, orderDate, listProducts);
         orderService.saveOrder(order, attr, req);
 
-        return "redirect:/";
+        model.addAttribute("userDetails", userDetails);
+        model.addAttribute("total", total);
+
+        return "checkout";
     }
 }
 
