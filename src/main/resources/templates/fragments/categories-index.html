@@ -2,7 +2,7 @@
     <div th:each="category : ${categories}" th:fragment="categories_index (categories)" th:remove="tag">
         <div class="col-sm-6 offset-sm-3 offset-md-0 col-lg-4 col-xl-3 my-4">
             <div class="card category-card">
-                <a href="#" class="category-title" th:text="${category.getName()}"></a>
+                <a th:href="@{'/category/' + ${category.getId()}}" class="category-title" th:text="${category.getName()}"></a>
             </div>
         </div>
     </div>
