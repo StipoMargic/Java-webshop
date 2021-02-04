@@ -1,5 +1,6 @@
 package com.catalina.webspringbootshop.controller;
 
+import com.catalina.webspringbootshop.dto.ProductForm;
 import com.catalina.webspringbootshop.entity.CartItem;
 import com.catalina.webspringbootshop.entity.Category;
 import com.catalina.webspringbootshop.entity.Product;
@@ -32,6 +33,9 @@ import java.util.stream.Collectors;
 public class ProductController {
     @Autowired
     private CartService cartService;
+
+    @Autowired
+    private CategoryRepository categoryrepo;
 
     @Autowired
     private UserService userService;
@@ -102,17 +106,23 @@ public class ProductController {
         return "product";
     }
 
-    @RequestMapping(value = "/product/new", method = {RequestMethod.POST, RequestMethod.GET})
-    public String newProduct(ModelMap model, Product product, HttpServletRequest req, RedirectAttributes attr) {
-        if (StringUtils.equals(req.getMethod(), RequestMethod.POST.toString())) {
+    @RequestMapping(value = "/admin/product/new", method = {RequestMethod.POST, RequestMethod.GET})
+    public String newProduct(ModelMap model, ProductForm product, HttpServletRequest req, RedirectAttributes attr) {
+        if (StringUtils.equals(req.getMethod(), RequestMethod.GET.toString())) {
             model.addAttribute("productForm", new Product());
+            model.addAttribute("categories", categoryrepo.findAll() );
 
-            return "product-add";
+            return "create-product";
         }
 
-        if (StringUtils.equals(req.getMethod(), RequestMethod.GET.toString())) {
-            productService.save(product);
-            logger.debug(String.format("Product with id: %s successfully created.", product.getId()));
+
+        if (StringUtils.equals(req.getMethod(), RequestMethod.POST.toString())) {
+            Category newCategory = categoryRepository.findById(product.getCategory().getId());
+            Product newProduct = new Product(product.getName(), product.getPrice(), product.getUnit_in_stock(),
+                    product.getDescription() ,newCategory);
+
+            productService.save(newProduct);
+            logger.debug(String.format("Product with id: %s successfully created.", newProduct.getId()));
 
             return "redirect:/";
         }
